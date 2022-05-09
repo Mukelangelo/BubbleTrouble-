@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 Menu::Menu()
-	: _window(sf::VideoMode(800 /*WINDOW_WIDTH*/, 800/*WINDOW_HEIGHT*/), "Bubble Trouble")
+	: m_window(sf::VideoMode(800 /*WINDOW_WIDTH*/, 800/*WINDOW_HEIGHT*/), "Bubble Trouble")
 {
     //for (int i = 0; i < MENU_BUTTONS ; i++) // Create the menu buttons
     //    m_buttons[i] = Button(sf::Vector2f(300, 80), m_texts[i], sf::Vector2f(800, 330 + i * 150)); 
@@ -26,16 +26,16 @@ Menu::Menu()
 void Menu::run()
 {
     //bool need_help = false;
-    while (_window.isOpen())
+    while (m_window.isOpen())
     {
         if(m_gameOn)
             game();
-        _window.clear();
-        _window.draw(m_bg);
+        m_window.clear();
+        m_window.draw(m_bg);
         draw();
         if (m_need_help)
-            _window.draw(m_help_bar);
-        _window.display();
+            m_window.draw(m_help_bar);
+        m_window.display();
         eventsHandler();
     }
 }
@@ -43,17 +43,17 @@ void Menu::run()
 //=======================================================================================
 void Menu::eventsHandler()
 {
-    for (auto event = sf::Event{}; _window.pollEvent(event);)
+    for (auto event = sf::Event{}; m_window.pollEvent(event);)
     {
         if ((event.type == sf::Event::Closed) ||
             ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
-            _window.close();
+            m_window.close();
 
         switch (event.type)
         {
         case sf::Event::MouseMoved: 
         {
-            auto loc = _window.mapPixelToCoords(
+            auto loc = m_window.mapPixelToCoords(
                 { event.mouseMove.x, event.mouseMove.y });
             handleHover(loc); 
             break;
@@ -61,7 +61,7 @@ void Menu::eventsHandler()
 
         case sf::Event::MouseButtonPressed:
 
-            auto location = _window.mapPixelToCoords(
+            auto location = m_window.mapPixelToCoords(
                 { event.mouseButton.x, event.mouseButton.y });
             
             switch (event.mouseButton.button)

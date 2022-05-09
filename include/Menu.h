@@ -22,7 +22,7 @@ private:
 	// this function is getting events from the user.
 	void eventsHandler();
 
-	sf::RenderWindow _window; 
+	sf::RenderWindow m_window; 
 	//sf::String m_texts[MENU_BUTTONS] = { "Start game", "Help", "Exit" };
 
 	//Button m_buttons[MENU_BUTTONS]; // menu buttons
