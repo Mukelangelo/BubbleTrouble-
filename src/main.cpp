@@ -3,5 +3,5 @@
 int main()
 {
 	Menu().run();
-	return 0;
+	return true;
 }
