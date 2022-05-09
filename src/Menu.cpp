@@ -18,9 +18,8 @@ Menu::Menu()
     //m_bg = sf::Sprite(*Resources::instance().getBackground(2));
 
     // set window icon 
-    auto icon = sf::Image{};
-    icon.loadFromFile("ogre.png");
-    m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    //auto icon = sf::Image{};
+    //m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
 //=======================================================================================
