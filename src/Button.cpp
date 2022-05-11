@@ -56,7 +56,7 @@ void Button::initButton()
     m_button.setOutlineColor(sf::Color(96, 163, 188));
     m_button.setOutlineThickness(3);
 
-   // m_buttonText.setFont(*Resources::instance().getFont());
+    m_buttonText.setFont(*Resources::instance().getFont());
     m_buttonText.Bold;
     m_buttonText.setOutlineColor(sf::Color(12, 36, 97, 255));
     m_buttonText.setOutlineThickness(2);
