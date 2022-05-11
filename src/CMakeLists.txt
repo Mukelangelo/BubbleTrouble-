@@ -2,4 +2,5 @@
 											  "Menu.cpp"
 											  "Board.cpp"
 											  "Button.cpp"
-											  "Controller.cpp")
+											  "Controller.cpp"
+											  "Resources.cpp")

@@ -3,6 +3,10 @@
 #include "Controller.h"
 #include "Button.h"
 
+constexpr int MENU_BUTTONS = 3;
+constexpr auto WINDOW_WIDTH = 1600;
+constexpr auto WINDOW_HEIGHT = 800;
+
 class Menu
 {
 public:
@@ -23,9 +27,9 @@ private:
 	void eventsHandler();
 
 	sf::RenderWindow m_window; 
-	//sf::String m_texts[MENU_BUTTONS] = { "Start game", "Help", "Exit" };
+	sf::String m_texts[MENU_BUTTONS] = { "Start game", "Help", "Exit" };
 
-	//Button m_buttons[MENU_BUTTONS]; // menu buttons
+	Button m_buttons[MENU_BUTTONS]; // menu buttons
 
 	bool m_need_help; // check if 'HELP' is pressed
 	bool m_gameOn; // check if 'START GAME' is pressed

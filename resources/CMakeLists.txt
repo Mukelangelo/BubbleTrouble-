@@ -1,1 +1,1 @@
-﻿# configure_file ("players/king.png" ${CMAKE_BINARY_DIR} COPYONLY)
+﻿configure_file ("font.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
