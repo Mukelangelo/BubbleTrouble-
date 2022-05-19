@@ -3,4 +3,9 @@
 											  "Board.cpp"
 											  "Button.cpp"
 											  "Controller.cpp"
-											  "Resources.cpp")
+											  "Resources.cpp"
+											  "Player.cpp"
+											  "GameObject.cpp"
+											  "MovingObject.cpp"
+											  "Power.cpp"
+											  "Weapon.cpp")

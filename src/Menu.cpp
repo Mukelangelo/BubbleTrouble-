@@ -81,8 +81,8 @@ void Menu::eventsHandler()
 //=======================================================================================
 void Menu::game()
 {
-//    Controller().run(m_window);
-//    m_gameOn = false;  // once we exit the game we set the gameOn to be false
+    Controller().run(m_window);
+    m_gameOn = false;
 }
 
 //=======================================================================================

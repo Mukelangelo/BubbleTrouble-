@@ -4,8 +4,6 @@
 #include "Button.h"
 
 constexpr int MENU_BUTTONS = 3;
-constexpr auto WINDOW_WIDTH = 1600;
-constexpr auto WINDOW_HEIGHT = 800;
 
 class Menu
 {
