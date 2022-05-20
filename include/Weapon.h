@@ -6,8 +6,9 @@ class Weapon : public Power {
 public:
 	Weapon();
 
-	void shoot();
-	bool checkHit(); // do we need this?
+	void checkEnd();
+	void activate(const sf::Vector2f& pos);
+	void draw(sf::RenderWindow& window);
 
 private:
 	int m_type;

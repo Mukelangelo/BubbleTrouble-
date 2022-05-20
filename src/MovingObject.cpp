@@ -25,6 +25,7 @@ void MovingObject::setDirection(sf::Keyboard::Key key)
 		m_direction = sf::Vector2f(1, 0);
 		//DirectionImg(Right);
 		break;
+	default: break;
 	}
 }
 
