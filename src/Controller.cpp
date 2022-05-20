@@ -1,7 +1,7 @@
 #include "Controller.h"
 
 Controller::Controller()
-	: m_board(), m_player()
+	: m_board(), m_player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 2 * WALL_SIZE))
 {}
 
 void Controller::run(sf::RenderWindow& window) {
@@ -28,6 +28,7 @@ void Controller::run(sf::RenderWindow& window) {
 			movementManger(deltaTimePlayer, clock);
 			break;
 		}
+		m_player.handlePowers();
 	}
 }
 
@@ -57,7 +58,7 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock) {
 	m_player.setLastLoc(); // set last location as current location
 	deltaTime = clock.restart();
 	m_player.move(deltaTime);
-
+	
 	//manage collision here
 
 	return true;

@@ -1,6 +1,6 @@
 #include "Power.h"
 
-Power::Power() : m_isTimeBased(false), m_value(0) {
+Power::Power() : m_isTimeBased(false), m_value(0), m_isActive(false) {
 
 }
 
@@ -10,4 +10,8 @@ int Power::getPower() {
 
 bool Power::timeBased() {
 	return m_isTimeBased;
+}
+
+bool Power::getActiveStatus() {
+	return m_isActive;
 }
