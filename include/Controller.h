@@ -12,6 +12,7 @@ public:
 private:
 	bool eventHandler(sf::Event& event, sf::RenderWindow& window);
 	bool movementManger(sf::Time& deltaTime, sf::Clock& clock);
+	bool checkBoundries();
 
 	Board m_board;
 	Player m_player;

@@ -8,8 +8,7 @@ void MovingObject::move(sf::Time deltaTime)
 
 void MovingObject::setLocation(const sf::Vector2f& loc)
 {
-	//m_sprite.setPosition(loc);
-	
+	m_sprite.setPosition(loc);
 	m_location = loc;
 }
 
