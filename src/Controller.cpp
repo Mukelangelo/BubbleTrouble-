@@ -57,9 +57,24 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window) {
 bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock) {
 	m_player.setLastLoc(); // set last location as current location
 	deltaTime = clock.restart();
+	if (!checkBoundries()) 
+		return false;
 	m_player.move(deltaTime);
 	
 	//manage collision here
+
+	return true;
+}
+bool Controller::checkBoundries() {
+	auto temp = m_player.getLocation();
+	if (temp.x < WALL_SIZE) {
+		m_player.setLocation(sf::Vector2f(WALL_SIZE, temp.y));
+		return false;
+	}
+	if (temp.x + WALL_SIZE > WINDOW_WIDTH - WALL_SIZE) {
+		m_player.setLocation(sf::Vector2f(WINDOW_WIDTH - 2 * WALL_SIZE, temp.y));
+		return false;
+	}
 
 	return true;
 }

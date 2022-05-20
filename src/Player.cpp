@@ -6,6 +6,7 @@ Player::Player(sf::Vector2f pos) {
 	m_sprite.setFillColor(sf::Color::Black);
 	m_sprite.setPosition(pos);
 	//
+	m_lastLoc = m_location = pos;
 	m_speedPerSecond = m_sprite.getScale().x * 200;
 	m_powers.push_back(std::make_unique<Weapon>(Weapon()));
 }
