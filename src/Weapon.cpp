@@ -11,9 +11,9 @@ void Weapon::activate(const sf::Vector2f& pos)
 	if (m_isActive)
 		return;
 	m_isActive = true;
-	m_obj = sf::RectangleShape(sf::Vector2f(10, -50));
+	m_obj = sf::RectangleShape(sf::Vector2f(SHOT_WIDTH, SHOT_HEIGHT));
 	m_obj.setPosition(pos);
-	m_obj.setFillColor(sf::Color::Green);
+	m_obj.setFillColor(sf::Color::Magenta);
 }
 
 void Weapon::checkEnd() 

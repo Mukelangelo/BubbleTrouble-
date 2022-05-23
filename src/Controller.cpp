@@ -18,6 +18,8 @@ void Controller::run(sf::RenderWindow& window)
 
 	m_caption.updateLevel();
 	m_caption.updateTime(STAGE_TIME);
+
+	bool played_countdown = false;
 	
 	while (window.isOpen()) 
 	{
@@ -36,6 +38,18 @@ void Controller::run(sf::RenderWindow& window)
 		}
 		m_caption.draw(window);
 		window.display();
+
+		//if (m_caption.getTime() <= 4 && !played_countdown)
+		//{ //when timer in on the last 5 seconds , a coundown sound is played
+		//	Resources::instance().playSound(countdown_sound);
+		//	played_countdown = true;
+		//}
+
+		if (m_caption.getTime() <= 0) // time <= 0 means game over
+		{
+			m_caption.printMessege("NOOB! , you lost :( shame on you", window);
+			return;
+		}
 
 		if (!eventHandler(event, window))
 		{
