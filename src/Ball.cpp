@@ -1,6 +1,7 @@
 #include "Ball.h"
 
-Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(radius) {
+Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(radius)
+{
 	initBall(loc, radius, world);
 
 	m_position = m_body->GetPosition();
@@ -11,7 +12,8 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(rad
 	m_circle.setTexture(&(* Resources::instance().getTexture(1)));
 }
 
-void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) {
+void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) 
+{
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(loc.x, loc.y);
 	m_bodyDef.linearVelocity = b2Vec2(-10.f, 0.f);
@@ -30,7 +32,8 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) {
 
 }
 
-void Ball::updateBall() {
+void Ball::updateBall() 
+{
 	m_position = m_body->GetPosition();
 	m_angle = m_body->GetAngle();
 
@@ -39,6 +42,7 @@ void Ball::updateBall() {
 
 }
 
-void Ball::draw(sf::RenderWindow& window) {
+void Ball::draw(sf::RenderWindow& window) 
+{
 	window.draw(m_circle);
 }
