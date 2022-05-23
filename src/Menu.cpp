@@ -48,7 +48,9 @@ void Menu::eventsHandler()
     {
         if ((event.type == sf::Event::Closed) ||
             ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
+        {
             m_window.close();
+        }
 
         switch (event.type)
         {
@@ -68,10 +70,14 @@ void Menu::eventsHandler()
             switch (event.mouseButton.button)
             {
                 case sf::Mouse::Button::Left:
-                    if(!m_need_help)
+                    if (!m_need_help)
+                    {
                         handleButtons(location); //check if a button is pressed
+                    }
                     else
+                    {
                         m_need_help = false; // lower the help bar if the mouse clicked anywhere
+                    }
                     break;
             }
             break;
@@ -90,7 +96,9 @@ void Menu::game()
 void Menu::draw()
 {
     for (int i = 0; i < MENU_BUTTONS; i++)
+    {
         m_buttons[i].draw(m_window);
+    }
 }
 
 //=======================================================================================

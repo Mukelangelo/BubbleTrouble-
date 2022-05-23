@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Ball.h"
+#include "Caption.h"
 
 class Controller {
 public:
@@ -38,4 +39,5 @@ private:
 	float m_timeStep = 1.0f / 60.0f;
 	int32 m_velocityIterations = 6;
 	int32 m_positionIterations = 2;
+	Caption m_caption;
 };

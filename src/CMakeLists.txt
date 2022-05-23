@@ -9,4 +9,5 @@
 											  "MovingObject.cpp"
 											  "Power.cpp"
 											  "Weapon.cpp"
-											  "Ball.cpp")
+											  "Ball.cpp"
+											  "Caption.cpp")

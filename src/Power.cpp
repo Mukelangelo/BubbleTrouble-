@@ -1,17 +1,21 @@
 #include "Power.h"
 
-Power::Power() : m_isTimeBased(false), m_value(0), m_isActive(false) {
+Power::Power() : m_isTimeBased(false), m_value(0), m_isActive(false) 
+{
 
 }
 
-int Power::getPower() {
+int Power::getPower() 
+{
 	return m_value;
 }
 
-bool Power::timeBased() {
+bool Power::timeBased() 
+{
 	return m_isTimeBased;
 }
 
-bool Power::getActiveStatus() {
+bool Power::getActiveStatus() 
+{
 	return m_isActive;
 }
