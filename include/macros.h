@@ -7,6 +7,10 @@
 constexpr auto WINDOW_WIDTH = 1600;
 constexpr auto WINDOW_HEIGHT = 800;
 constexpr int WALL_SIZE = 100;
+constexpr int STAGE_TIME = 5;
+constexpr auto BAR_SIZE = 100;
+constexpr auto SHOT_WIDTH = 5;
+constexpr auto SHOT_HEIGHT = -50;
 
 enum _entity {
     WALL = 0x0001,
