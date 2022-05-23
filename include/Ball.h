@@ -6,11 +6,12 @@ class Ball : public MovingObject {
 public:
 	Ball() = default;
 	Ball(const sf::Vector2f& loc, float radius, b2World* world);
-	void initBall(const sf::Vector2f& loc, float radius, b2World* world);
 	void updateBall();
 	void draw(sf::RenderWindow& window);
 
 private:
+	void initBall(const sf::Vector2f& loc, float radius, b2World* world);
+
 	float m_radius;
 	b2BodyDef m_bodyDef;
 	b2Body* m_body;
