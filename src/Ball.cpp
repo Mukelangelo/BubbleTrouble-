@@ -24,6 +24,8 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) {
 	m_fixtureDef.density = 1.f;
 	m_fixtureDef.friction = 0.f;
 	m_fixtureDef.restitution = 1.f;
+	m_fixtureDef.filter.categoryBits = BALL;
+	m_fixtureDef.filter.maskBits = WEAPON | WALL;
 	m_body->CreateFixture(&m_fixtureDef);
 
 }
@@ -34,6 +36,7 @@ void Ball::updateBall() {
 
 	m_circle.setPosition(m_position.x, m_position.y);
 	m_sprite.setRotation(m_angle);
+
 }
 
 void Ball::draw(sf::RenderWindow& window) {
