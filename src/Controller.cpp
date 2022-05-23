@@ -18,6 +18,7 @@ void Controller::run(sf::RenderWindow& window)
 
 	m_caption.updateLevel();
 	m_caption.updateTime(STAGE_TIME);
+	m_caption.updateLives();
 
 	bool played_countdown = false;
 	
@@ -45,7 +46,7 @@ void Controller::run(sf::RenderWindow& window)
 		//	played_countdown = true;
 		//}
 
-		if (m_caption.getTime() <= 0) // time <= 0 means game over
+		if (m_caption.getTime() <= 0) // means game over
 		{
 			m_caption.printMessege("NOOB! , you lost :( shame on you", window);
 			return;

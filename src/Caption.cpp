@@ -1,9 +1,10 @@
 #include "Caption.h"
 
-Caption::Caption() : m_level(0), m_stageTime(0)
+Caption::Caption() : m_level(0), m_stageTime(0), m_lives(0)
 {
 	setText(m_stageTimeText, 0);
 	setText(m_levelText, 1);
+	setText(m_livesText, 2);
 }
 //=======================================================================================
 
@@ -41,7 +42,15 @@ void Caption::updateLevel()
 }
 
 //=======================================================================================
-int Caption::getLvl() const
+void Caption::updateLives()
+{
+	m_lives = 3;
+	m_livesText.setString("Lives left: " + std::to_string((int)m_lives));
+	m_Timer.restart();
+}
+
+//=======================================================================================
+int Caption::getLevel() const
 {
 	return this->m_level;
 }
@@ -50,6 +59,12 @@ int Caption::getLvl() const
 float Caption::getTime() const
 {
 	return m_stageTime;
+}
+
+//=======================================================================================
+int Caption::getLives() const
+{
+	return m_lives;
 }
 
 //=======================================================================================
@@ -64,6 +79,7 @@ void Caption::draw(sf::RenderWindow& window)
 	updateTime(0);
 	window.draw(m_levelText);
 	window.draw(m_stageTimeText);
+	window.draw(m_livesText);
 }
 
 //=======================================================================================
