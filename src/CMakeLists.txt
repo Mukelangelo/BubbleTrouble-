@@ -8,4 +8,5 @@
 											  "GameObject.cpp"
 											  "MovingObject.cpp"
 											  "Power.cpp"
-											  "Weapon.cpp")
+											  "Weapon.cpp"
+											  "Ball.cpp")

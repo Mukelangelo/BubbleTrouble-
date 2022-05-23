@@ -1,11 +1,8 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f pos) {
-	//this is temp:
-	m_sprite = sf::RectangleShape(sf::Vector2f(100, 100));
-	m_sprite.setFillColor(sf::Color::Black);
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(0));
 	m_sprite.setPosition(pos);
-	//
 	m_lastLoc = m_location = pos;
 	m_speedPerSecond = m_sprite.getScale().x * 200;
 	m_powers.push_back(std::make_unique<Weapon>(Weapon()));
@@ -24,7 +21,7 @@ void Player::move(sf::Time deltaTime) {
 }
 
 void Player::shoot() {
-	m_powers[0]->activate(m_sprite.getPosition() + sf::Vector2f(50, 0)); // need to center more efficintly
+	m_powers[0]->activate(m_sprite.getPosition() + sf::Vector2f(50, WALL_SIZE)); // need to center more efficintly
 	
 }
 

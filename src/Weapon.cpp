@@ -9,13 +9,13 @@ void Weapon::activate(const sf::Vector2f& pos) {
 	if (m_isActive)
 		return;
 	m_isActive = true;
-	m_obj = sf::RectangleShape(sf::Vector2f(10, 50));
+	m_obj = sf::RectangleShape(sf::Vector2f(10, -50));
 	m_obj.setPosition(pos);
 	m_obj.setFillColor(sf::Color::Green);
 }
 
 void Weapon::checkEnd() {
-	if (m_obj.getSize().y < -WINDOW_HEIGHT + WALL_SIZE * 3) {
+	if (m_obj.getSize().y < -WINDOW_HEIGHT + WALL_SIZE * 2) {
 		m_isActive = false;
 		m_obj.setSize(sf::Vector2f());
 	}

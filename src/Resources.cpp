@@ -57,19 +57,18 @@ void Resources::SetButtons()
 //=======================================================================================
 void Resources::loadTextures()
 {
-	//for (int i = 0; i < NUM_OF_PICS; i++)
-	//	for (int j = 0; j < DIRECTIONS; j++)
-	//		m_textures[i][j].loadFromFile(objectTextures[i][j]);
+	for (int i = 0; i < NUM_OF_PICS; i++)
+		m_textures[i].loadFromFile(objectTextures[i]);
 
 	//for (int i = 0; i < MENU_BUTTONS; i++)
 	//	m_pauseTextures[i].loadFromFile(buttonTextures[i]);
 }
 
 //=======================================================================================
-//sf::Texture* Resources::getTexture(int index)
-//{
-//	return &sf::Texture();
-//}
+sf::Texture* Resources::getTexture(int index)
+{
+	return &m_textures[index];
+}
 
 //=======================================================================================
 sf::Texture* Resources::getBackground(int index)
