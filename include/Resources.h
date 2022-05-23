@@ -6,13 +6,15 @@
 #include <vector>
 #include "macros.h"
 
+const int NUM_OF_PICS = 2;
+
 class Resources
 {
 public:
 	~Resources();
 	static Resources& instance();
 
-	//sf::Texture* getTexture(int i);
+	sf::Texture* getTexture(int i);
 	sf::Texture* getBackground(int index);
 	//sf::RectangleShape* getPauseButtons(int index);
 	sf::Font* getFont();
@@ -42,7 +44,7 @@ private:
 
 	//sf::Texture m_pauseTextures[MENU_BUTTONS];
 
-	//sf::Texture m_textures[NUM_OF_PICS][DIRECTIONS];
+	sf::Texture m_textures[NUM_OF_PICS];
 	std::vector < sf::Texture > m_bg;
 	sf::Font m_font;
 
@@ -51,12 +53,6 @@ private:
 	//const std::string soundBuffers[NUM_OF_SOUNDS] = { "startGame.wav" , "victory.wav" , "fire.wav" , "ogre.wav" , "gate.wav" ,
 	//												  "teleport.wav" , "gnome.wav" ,"countdown.wav" };
 
-	//const std::string objectTextures[NUM_OF_PICS][DIRECTIONS] = { {"king.png","kingUp.png","kingDown.png" , "kingLeft.png"},
-	//															  {"mage.png","mageUp.png","mageDown.png", "mageLeft.png"},
-	//															  {"warrior.png","warriorUp.png","warriorDown.png",  "warriorLeft.png"},
-	//															  {"thief.png", "thiefUp.png","thiefDown.png","thiefLeft.png"},
-	//															  {"thiefKey.png" , "thiefUpKey.png", "thiefDownKey.png" , "thiefLeftKey.png"},
-	//															  {"wall.png"}, {"throne.png"}, {"fire.png"}, {"ogre.png"},
-	//															  {"teleport.png"}, {"gate.png"}, {"key.png"}, {"gnome.png"}, { "gift.png"} };
+	const std::string objectTextures[NUM_OF_PICS] = {"player.png", "red_ball.png"};
 };
 

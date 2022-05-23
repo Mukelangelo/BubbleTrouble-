@@ -8,6 +8,5 @@ public:
 
 protected:
 	sf::Vector2f m_location; // location of the object
-	//sf::Sprite m_sprite; // image of the object
-	sf::RectangleShape m_sprite; // <--- temp
+	sf::Sprite m_sprite; // image of the object
 };

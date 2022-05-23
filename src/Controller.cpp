@@ -1,8 +1,13 @@
 #include "Controller.h"
+#include <iostream>
 
 Controller::Controller()
 	: m_board(), m_player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 2 * WALL_SIZE))
-{}
+{
+	setUpGame();
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), 50, m_world.get()));
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), 100, m_world.get()));
+}
 
 void Controller::run(sf::RenderWindow& window) {
 	sf::Event event;
@@ -11,14 +16,20 @@ void Controller::run(sf::RenderWindow& window) {
 	sf::Time deltaTimePlayer;
 	
 	while (window.isOpen()) {
+		m_world->Step(m_timeStep, m_velocityIterations, m_positionIterations);
+		for(auto& ball : m_balls)
+			ball.updateBall();
+
 		window.clear(sf::Color::White);
 		m_board.draw(window);
 		m_player.draw(window);
+		for (auto& ball : m_balls)
+			ball.draw(window);
 		window.display();
 
 		if (!eventHandler(event, window))
 			return;
-
+		
 		if (clock.getElapsedTime() >= timerLimit)
 			clock.restart();
 
@@ -61,7 +72,7 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock) {
 		return false;
 	m_player.move(deltaTime);
 	
-	//manage collision here
+	//manage collision here (?)
 
 	return true;
 }
@@ -77,4 +88,22 @@ bool Controller::checkBoundries() {
 	}
 
 	return true;
+}
+
+void Controller::setUpGame() {
+	m_world = std::make_unique<b2World>(m_garvity);
+	m_groundBodyDef.position.Set(0.0f, WINDOW_HEIGHT);
+	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
+	m_groundBox.SetAsBox(WINDOW_WIDTH, WALL_SIZE);
+	m_groundBody->CreateFixture(&m_groundBox, 0.0f);
+
+	m_rightWallBodyDef.position.Set(WINDOW_WIDTH, 0.0f);
+	m_rightWallBody = m_world->CreateBody(&m_rightWallBodyDef);
+	m_rightWallBox.SetAsBox(WALL_SIZE, WINDOW_HEIGHT);
+	m_rightWallBody->CreateFixture(&m_rightWallBox, 0.0f);
+
+	m_leftWallBodyDef.position.Set(0.0f, 0.0f);
+	m_leftWallBody = m_world->CreateBody(&m_leftWallBodyDef);
+	m_leftWallBox.SetAsBox(0.0f, WINDOW_HEIGHT);
+	m_leftWallBody->CreateFixture(&m_leftWallBox, 0.0f);
 }
