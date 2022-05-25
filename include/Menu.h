@@ -2,6 +2,7 @@
 
 #include "Controller.h"
 #include "Button.h"
+#include "macros.h"
 
 constexpr int MENU_BUTTONS = 3;
 

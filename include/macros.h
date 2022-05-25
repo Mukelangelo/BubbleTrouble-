@@ -24,5 +24,5 @@ enum _game_objects {
     PLAYER_GO = 0,
     BALL_GO = 1,
     WALL_GO = 2,
-    OGRE_GO = 3
+    HELP = 3
 };
