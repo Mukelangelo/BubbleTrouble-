@@ -4,12 +4,13 @@
 #include "box2d/box2d.h"
 #include "Resources.h"
 
-constexpr auto WINDOW_WIDTH = 1600;
-constexpr auto WINDOW_HEIGHT = 800;
-constexpr int WALL_SIZE = 100;
-constexpr int STAGE_TIME = 60;
-constexpr auto BAR_SIZE = 100;
-constexpr auto SHOT_WIDTH = 5;
+constexpr auto WINDOW_WIDTH = 1600.f;
+constexpr auto WINDOW_HEIGHT = 800.f;
+constexpr auto WALL_SIZE = 100.f;
+constexpr auto PLAYER_WIDTH = 48.f;
+constexpr auto STAGE_TIME = 60.f;
+constexpr auto BAR_SIZE = 100.f;
+constexpr auto SHOT_WIDTH = 5.f;
 constexpr auto SHOT_HEIGHT = -50;
 
 enum _entity {
@@ -17,4 +18,11 @@ enum _entity {
     BALL = 0x0002,
     WEAPON = 0x0004,
     PLAYER = 0x0008,
+};
+
+enum _game_objects {
+    PLAYER_GO = 0,
+    BALL_GO = 1,
+    WALL_GO = 2,
+    OGRE_GO = 3
 };

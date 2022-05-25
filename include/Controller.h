@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Player.h"
 #include "Ball.h"
+#include "Wall.h"
 #include "Caption.h"
 
 class Controller {
@@ -23,6 +24,7 @@ private:
 
 	b2Vec2 m_garvity = b2Vec2(0.f, 10.0f);
 	std::unique_ptr<b2World> m_world;
+	/*
 	// floor
 	b2BodyDef m_groundBodyDef;
 	b2Body* m_groundBody;
@@ -35,7 +37,7 @@ private:
 	b2BodyDef m_leftWallBodyDef;
 	b2Body* m_leftWallBody;
 	b2PolygonShape m_leftWallBox;
-
+	*/
 	float m_timeStep = 1.0f / 60.0f;
 	int32 m_velocityIterations = 6;
 	int32 m_positionIterations = 2;

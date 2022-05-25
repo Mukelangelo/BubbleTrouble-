@@ -13,7 +13,7 @@ public:
 	void handlePowers();
 
 	void draw(sf::RenderWindow& window);
-	bool checkBallHit();
+	bool handleCollision();
 
 private:
 	void initPlayer(const sf::Vector2f& loc);
@@ -24,5 +24,4 @@ private:
 
 	b2Body* m_body;
 	b2Fixture* m_fixture;
-	b2FixtureDef m_fixtureDef;
 };

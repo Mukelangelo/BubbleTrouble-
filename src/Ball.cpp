@@ -4,14 +4,15 @@
 Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(radius)
 {
 	initBall(loc, radius, world);
-
+	
 	m_position = m_body->GetPosition();
 	m_angle = m_body->GetAngle();
 
 	m_circle = sf::CircleShape(radius);
 	m_circle.setPosition(loc);
-	m_circle.setTexture(&(* Resources::instance().getTexture(1)));
+	m_circle.setTexture(&(* Resources::instance().getTexture(_game_objects::BALL_GO)));
 	m_circle.setOrigin(radius, radius);
+	
 }
 
 void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) 

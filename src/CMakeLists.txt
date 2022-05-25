@@ -10,4 +10,6 @@
 											  "Power.cpp"
 											  "Weapon.cpp"
 											  "Ball.cpp"
-											  "Caption.cpp")
+											  "Caption.cpp"
+											  "StaticObject.cpp"
+											  "Wall.cpp")

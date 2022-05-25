@@ -2,14 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "macros.h"
+#include "Wall.h"
 
 class Board {
 public:
-	Board();
+	Board() = default;
+	void buildBackGround(b2World* world);
 	void draw(sf::RenderWindow& window);
 
 private:
-	void buildBackGround();
-
-	sf::RectangleShape m_background;
+	std::vector<std::unique_ptr<Wall>> m_walls;
 };

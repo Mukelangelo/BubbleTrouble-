@@ -6,11 +6,6 @@ void MovingObject::move(sf::Time deltaTime)
 	//m_location = m_sprite.getPosition();
 }
 
-void MovingObject::setLocation(const sf::Vector2f& loc)
-{
-	m_sprite.setPosition(loc);
-	m_location = loc;
-}
 
 void MovingObject::setDirection(sf::Keyboard::Key key)
 {

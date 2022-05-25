@@ -1,3 +1,5 @@
 ﻿configure_file ("font.ttf" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("red_ball.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("player.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("wall.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("ogre.png" ${CMAKE_BINARY_DIR} COPYONLY)

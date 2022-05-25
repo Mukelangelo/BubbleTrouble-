@@ -4,10 +4,12 @@
 Controller::Controller()
 	: m_board(), m_player(), m_caption()
 {
-	setUpGame();
+	m_world = std::make_unique<b2World>(m_garvity);
+	m_board.buildBackGround(m_world.get());
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), 50, m_world.get()));
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), 100, m_world.get()));
+	
 }
 
 void Controller::run(sf::RenderWindow& window) 
@@ -41,10 +43,12 @@ void Controller::run(sf::RenderWindow& window)
 		m_caption.draw(window);
 		window.display();
 		
-		if (m_player.checkBallHit())
+		/*
+		if (m_player.handleCollision())
 		{
 			m_caption.removeLive();
 		}
+		*/
 
 		//if (m_caption.getTime() <= 4 && !played_countdown)
 		//{ //when timer in on the last 5 seconds , a coundown sound is played
@@ -114,7 +118,7 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock)
 {
 	m_player.setLastLoc(); // set last location as current location
 	deltaTime = clock.restart();
-	if (!checkBoundries())
+	if (m_player.handleCollision())
 	{
 		return false;
 	}
@@ -139,23 +143,4 @@ bool Controller::checkBoundries()
 	}
 
 	return true;
-}
-
-void Controller::setUpGame() 
-{
-	m_world = std::make_unique<b2World>(m_garvity);
-	m_groundBodyDef.position.Set(0.0f, WINDOW_HEIGHT);
-	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
-	m_groundBox.SetAsBox(WINDOW_WIDTH, WALL_SIZE);
-	m_groundBody->CreateFixture(&m_groundBox, 0.0f);
-
-	m_rightWallBodyDef.position.Set(WINDOW_WIDTH, 0.0f);
-	m_rightWallBody = m_world->CreateBody(&m_rightWallBodyDef);
-	m_rightWallBox.SetAsBox(WALL_SIZE, WINDOW_HEIGHT);
-	m_rightWallBody->CreateFixture(&m_rightWallBox, 0.0f);
-
-	m_leftWallBodyDef.position.Set(0.0f, 0.0f);
-	m_leftWallBody = m_world->CreateBody(&m_leftWallBodyDef);
-	m_leftWallBox.SetAsBox(0.0f, WINDOW_HEIGHT);
-	m_leftWallBody->CreateFixture(&m_leftWallBox, 0.0f);
 }
