@@ -3,9 +3,9 @@
 Player::Player(const sf::Vector2f& pos, b2World* world)
 	: m_world(world)
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(0));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::OGRE_GO));
 	m_sprite.setPosition(pos);
-	m_sprite.setOrigin((sf::Vector2f)(* Resources::instance().getTexture(0)).getSize() / 2.f);
+	m_sprite.setOrigin((sf::Vector2f)(*Resources::instance().getTexture(_game_objects::OGRE_GO)).getSize() / 2.f);
 	m_lastLoc = m_location = pos;
 	m_speedPerSecond = m_sprite.getScale().x * 200;
 	m_powers.push_back(std::make_unique<Weapon>(m_world));
@@ -50,26 +50,27 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(WALL_SIZE / 4.f, WALL_SIZE / 2.f);
+	groundBox.SetAsBox(PLAYER_WIDTH / 4.f, WALL_SIZE / 2.f);
 
 	b2FixtureDef fixtureDef;
 	
 	fixtureDef.shape = &groundBox;
-	fixtureDef.filter.categoryBits = PLAYER;
-	m_fixtureDef.filter.maskBits = BALL;
+	fixtureDef.filter.categoryBits = _entity::PLAYER;
+	fixtureDef.filter.maskBits = _entity::BALL | _entity::WALL;
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
 
-bool Player::checkBallHit()
+bool Player::handleCollision()
 {
 	for (auto edge = m_body->GetContactList(); edge; edge = edge->next)
 	{
 		auto entity = edge->contact->GetFixtureB()->GetFilterData().categoryBits;
-		if (entity == BALL)
-		{
+		if (entity == _entity::BALL)
 			return true;
-		}
+
+		if (entity == _entity::WALL)
+			return true;
 	}
 	return false;
 }

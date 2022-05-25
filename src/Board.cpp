@@ -1,20 +1,22 @@
 #include "Board.h"
 
-Board::Board() 
-{
-	buildBackGround();
-}
 
 void Board::draw(sf::RenderWindow& window) 
 {
-	window.draw(m_background);
+	for (auto& wall : m_walls)
+	{
+		wall->draw(window);
+	}
 }
 
-void Board::buildBackGround() 
+void Board::buildBackGround(b2World* world)
 {
-	m_background = sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH - WALL_SIZE * 2, WINDOW_HEIGHT - WALL_SIZE * 2));
-	m_background.setPosition(sf::Vector2f(WALL_SIZE, WALL_SIZE));
-	m_background.setOutlineColor(sf::Color(128, 128, 128));
-	m_background.setFillColor(sf::Color::White);
-	m_background.setOutlineThickness(WALL_SIZE);
+	for (auto i = 0.f; i <= WINDOW_HEIGHT; i += WALL_SIZE )
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(0.f, i), world)));
+	for (auto i = 0.f; i <= WINDOW_HEIGHT; i += WALL_SIZE)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(WINDOW_WIDTH, i), world)));
+	for (auto i = WALL_SIZE * 2; i < WINDOW_WIDTH; i += WALL_SIZE)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, 0.f), world)));
+	for (auto i = WALL_SIZE * 2; i < WINDOW_WIDTH; i += WALL_SIZE)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, WINDOW_HEIGHT), world)));
 }
