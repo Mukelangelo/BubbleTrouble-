@@ -18,8 +18,8 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world)
 {
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(loc.x, loc.y);
-	//m_bodyDef.linearVelocity = b2Vec2(-10.f, 0.f);
-	m_bodyDef.linearVelocity = b2Vec2(0.f, 0.f);
+	m_bodyDef.linearVelocity = b2Vec2(-10.f, 0.f);
+	//m_bodyDef.linearVelocity = b2Vec2(0.f, 0.f);
 	m_body = world->CreateBody(&m_bodyDef);
 
 	m_dynamicCircle.m_p.Set(1.f, 1.f);

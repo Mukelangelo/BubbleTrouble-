@@ -30,7 +30,7 @@ void Player::move(sf::Time deltaTime)
 
 void Player::shoot() 
 {
-	m_powers[0]->activate(m_sprite.getPosition() + sf::Vector2f(50, WALL_SIZE)); // need to center more efficintly
+	m_powers[0]->activate(m_sprite.getPosition() + sf::Vector2f(0, WALL_SIZE / 4)); // need to center more efficintly
 	
 }
 

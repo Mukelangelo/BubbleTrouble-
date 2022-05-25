@@ -16,8 +16,7 @@ void Weapon::activate(const sf::Vector2f& pos)
 	m_obj = sf::RectangleShape(sf::Vector2f(SHOT_WIDTH, SHOT_HEIGHT));
 	m_obj.setPosition(pos);
 	m_obj.setFillColor(sf::Color::Magenta);
-	//
-
+	m_obj.setOrigin(m_obj.getSize() / 2.f);
 }
 
 void Weapon::checkEnd() 
@@ -26,10 +25,13 @@ void Weapon::checkEnd()
 	{
 		m_isActive = false;
 		m_obj.setSize(sf::Vector2f());
+		m_body->SetTransform(b2Vec2(0, 0), m_body->GetAngle());
 	}
 	else if (m_isActive)
 	{
 		m_obj.setSize(m_obj.getSize() + sf::Vector2f(0, -1));
+		sf::Vector2f temp = m_obj.getPosition();
+		m_body->SetTransform(b2Vec2(temp.x, temp.y), m_body->GetAngle());
 	}
 }
 
@@ -42,11 +44,12 @@ void Weapon::draw(sf::RenderWindow& window)
 void Weapon::initWeapon()
 {
 	b2BodyDef bodyDef;
-	bodyDef.position.Set(0, WINDOW_HEIGHT);
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(0, 0);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(WALL_SIZE / 4.f, (WINDOW_HEIGHT - 2 * WALL_SIZE));
+	groundBox.SetAsBox(WALL_SIZE / 100.f, (WINDOW_HEIGHT - 2 * WALL_SIZE));
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &groundBox;
