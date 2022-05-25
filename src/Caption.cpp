@@ -111,6 +111,12 @@ void Caption::printMessege(const sf::String text, sf::RenderWindow& window)
 	}
 }
 
+void Caption::removeLive()
+{
+	m_lives--;
+	m_livesText.setString("Lives left: " + std::to_string((int)m_lives));
+}
+
 //=======================================================================================
 //int Caption::HandleClick(const sf::Vector2f location)
 //{
