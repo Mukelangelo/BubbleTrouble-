@@ -3,7 +3,7 @@
 Player::Player(const sf::Vector2f& pos, b2World* world)
 	: m_world(world)
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::OGRE_GO));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::PLAYER_GO));
 	m_sprite.setPosition(pos);
 	m_sprite.setOrigin((sf::Vector2f)(*Resources::instance().getTexture(_game_objects::OGRE_GO)).getSize() / 2.f);
 	m_lastLoc = m_location = pos;
