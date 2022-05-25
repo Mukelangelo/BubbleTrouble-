@@ -2,9 +2,10 @@
 #include <iostream>
 
 Controller::Controller()
-	: m_board(), m_player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 2 * WALL_SIZE)), m_caption()
+	: m_board(), m_player(), m_caption()
 {
 	setUpGame();
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), 50, m_world.get()));
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), 100, m_world.get()));
 }
@@ -39,6 +40,11 @@ void Controller::run(sf::RenderWindow& window)
 		}
 		m_caption.draw(window);
 		window.display();
+		
+		if (m_player.checkBallHit())
+		{
+			m_caption.removeLive();
+		}
 
 		//if (m_caption.getTime() <= 4 && !played_countdown)
 		//{ //when timer in on the last 5 seconds , a coundown sound is played

@@ -8,6 +8,7 @@ public:
 	Ball(const sf::Vector2f& loc, float radius, b2World* world);
 	void updateBall();
 	void draw(sf::RenderWindow& window);
+	bool getPopStatus();
 
 private:
 	void initBall(const sf::Vector2f& loc, float radius, b2World* world);
@@ -21,5 +22,7 @@ private:
 	b2Vec2 m_position;
 	float m_angle;
 	sf::CircleShape m_circle;
+
+	bool m_pop = false;
 
 };

@@ -18,6 +18,7 @@ public:
 	void resetTime(); // reset the timer to 0
 	void draw(sf::RenderWindow&);
 	int getLives() const;
+	void removeLive();
 
 	// print an end messege ( next level / lose / victory)
 	void printMessege(const sf::String text, sf::RenderWindow& window);
