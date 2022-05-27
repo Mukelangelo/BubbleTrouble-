@@ -65,12 +65,18 @@ bool Player::handleCollision()
 {
 	for (auto edge = m_body->GetContactList(); edge; edge = edge->next)
 	{
-		auto entity = edge->contact->GetFixtureB()->GetFilterData().categoryBits;
-		if (entity == _entity::BALL)
+		auto entityA = edge->contact->GetFixtureA()->GetFilterData().categoryBits;
+		auto entityB = edge->contact->GetFixtureB()->GetFilterData().categoryBits;
+		if (entityA == _entity::BALL)
 			return true;
 
-		if (entity == _entity::WALL)
-			return true;
+		//if (entityA == _entity::WALL || entityB == _entity::WALL)
+		//	return true;
 	}
 	return false;
+}
+
+void Player::ballHit()
+{
+	m_powers[0]->forceEnd();
 }

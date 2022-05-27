@@ -1,9 +1,9 @@
 #include "Ball.h"
 #include <iostream>
 
-Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(radius)
+Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity) : m_radius(radius)
 {
-	initBall(loc, radius, world);
+	initBall(loc, radius, world, velocity);
 	
 	m_position = m_body->GetPosition();
 	m_angle = m_body->GetAngle();
@@ -15,11 +15,11 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world) : m_radius(rad
 	
 }
 
-void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world) 
+void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity)
 {
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(loc.x, loc.y);
-	m_bodyDef.linearVelocity = b2Vec2(-10.f, 0.f);
+	m_bodyDef.linearVelocity = velocity;
 	//m_bodyDef.linearVelocity = b2Vec2(0.f, 0.f);
 	m_body = world->CreateBody(&m_bodyDef);
 
@@ -32,8 +32,8 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world)
 	m_fixtureDef.restitution = 1.f;
 	m_fixtureDef.filter.categoryBits = BALL;
 	m_fixtureDef.filter.maskBits = WEAPON | WALL | PLAYER;
+	m_fixtureDef.filter.groupIndex = id++;
 	m_body->CreateFixture(&m_fixtureDef);
-
 }
 
 void Ball::updateBall() 
@@ -47,7 +47,7 @@ void Ball::updateBall()
 	m_angle = m_body->GetAngle();
 
 	m_circle.setPosition(m_position.x, m_position.y);
-	m_sprite.setRotation(m_angle);
+	m_location = m_circle.getPosition();
 
 }
 
@@ -56,7 +56,17 @@ void Ball::draw(sf::RenderWindow& window)
 	window.draw(m_circle);
 }
 
-bool Ball::getPopStatus()
+bool Ball::getPopStatus() const
 {
 	return m_pop;
+}
+
+int Ball::getId() const
+{
+	return m_fixtureDef.filter.groupIndex;;
+}
+
+float Ball::getRadius() const
+{
+	return m_radius;
 }

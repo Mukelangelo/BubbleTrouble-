@@ -8,6 +8,7 @@ public:
 	Weapon(b2World* world);
 
 	void checkEnd();
+	void forceEnd();
 	void activate(const sf::Vector2f& pos);
 	void draw(sf::RenderWindow& window);
 

@@ -7,9 +7,10 @@ Controller::Controller()
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), 50, m_world.get()));
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), 100, m_world.get()));
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity));
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity));
 	
+	m_world->SetContactListener(&m_cl);
 }
 
 void Controller::run(sf::RenderWindow& window) 
@@ -32,6 +33,7 @@ void Controller::run(sf::RenderWindow& window)
 		{
 			ball.updateBall();
 		}
+		checkSplit();
 
 		window.clear(sf::Color::White);
 		m_board.draw(window);
@@ -120,6 +122,7 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock)
 	deltaTime = clock.restart();
 	if (m_player.handleCollision())
 	{
+		//checkBoundries();
 		return false;
 	}
 	m_player.move(deltaTime);
@@ -143,4 +146,28 @@ bool Controller::checkBoundries()
 	}
 
 	return true;
+}
+
+void Controller::checkSplit()
+{
+	int index = -1;
+	if (m_cl.getSplit(index))
+	{
+		for (auto it = m_balls.begin(); it < m_balls.end(); it++)
+		{
+			if (it->getId() == index)
+			{
+				m_player.ballHit();
+				auto radius = it->getRadius() / 2;
+				auto loc = it->getLocation();
+				m_balls.erase(it);	// split here
+				if (radius > _ball_radius::SMALL)
+				{
+					m_balls.push_back(Ball(loc + sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_rightVelocity));
+					m_balls.push_back(Ball(loc - sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_leftVelocity));
+				}
+				return;
+			}
+		}
+	}
 }
