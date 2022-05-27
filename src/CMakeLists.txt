@@ -12,4 +12,5 @@
 											  "Ball.cpp"
 											  "Caption.cpp"
 											  "StaticObject.cpp"
-											  "Wall.cpp")
+											  "Wall.cpp"
+											  "ContactListener.cpp")

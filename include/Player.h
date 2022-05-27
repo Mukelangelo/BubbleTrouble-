@@ -11,6 +11,7 @@ public:
 	void move(sf::Time deltaTime);
 	void shoot();
 	void handlePowers();
+	void ballHit();
 
 	void draw(sf::RenderWindow& window);
 	bool handleCollision();

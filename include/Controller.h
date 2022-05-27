@@ -4,6 +4,7 @@
 #include "Ball.h"
 #include "Wall.h"
 #include "Caption.h"
+#include "ContactListener.h"
 
 class Controller {
 public:
@@ -17,6 +18,7 @@ private:
 	bool movementManger(sf::Time& deltaTime, sf::Clock& clock);
 	bool checkBoundries();
 	void setUpGame();
+	void checkSplit();
 
 	Board m_board;
 	Player m_player;
@@ -42,4 +44,9 @@ private:
 	int32 m_velocityIterations = 6;
 	int32 m_positionIterations = 2;
 	Caption m_caption;
+
+	ContactListener m_cl;
+
+	b2Vec2 m_leftVelocity = b2Vec2(-15.f, 1.f);
+	b2Vec2 m_rightVelocity = b2Vec2(15.f, 1.f);
 };

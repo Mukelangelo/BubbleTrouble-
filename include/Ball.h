@@ -2,16 +2,20 @@
 
 #include "MovingObject.h"
 
+static int id = 0;
+
 class Ball : public MovingObject {
 public:
 	Ball() = default;
-	Ball(const sf::Vector2f& loc, float radius, b2World* world);
+	Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);
 	void updateBall();
 	void draw(sf::RenderWindow& window);
-	bool getPopStatus();
+	bool getPopStatus() const;
+	int getId() const;
+	float getRadius() const;
 
 private:
-	void initBall(const sf::Vector2f& loc, float radius, b2World* world);
+	void initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);
 
 	float m_radius;
 	b2BodyDef m_bodyDef;
@@ -24,5 +28,4 @@ private:
 	sf::CircleShape m_circle;
 
 	bool m_pop = false;
-
 };

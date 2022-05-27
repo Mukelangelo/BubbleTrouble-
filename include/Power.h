@@ -12,6 +12,7 @@ public:
 	virtual void activate(const sf::Vector2f& pos) = 0;
 	virtual void draw(sf::RenderWindow & window) = 0;
 	virtual void checkEnd() = 0;
+	virtual void forceEnd() {}
 
 	virtual ~Power() = default;
 

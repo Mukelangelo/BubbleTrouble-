@@ -26,3 +26,11 @@ enum _game_objects {
     WALL_GO = 2,
     HELP = 3
 };
+
+enum _ball_radius {
+    MEGA_BIG = 100,
+    BIG = 50,
+    MEDIUM = 25,
+    SMALL = 12,
+    DESTROY = 0,
+};
