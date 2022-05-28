@@ -17,14 +17,15 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& 
 
 void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity)
 {
+	m_dynamicCircle.m_p.Set(1.f, 1.f);
+	m_dynamicCircle.m_radius = radius;
+
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(loc.x, loc.y);
 	m_bodyDef.linearVelocity = velocity;
 	//m_bodyDef.linearVelocity = b2Vec2(0.f, 0.f);
+	m_bodyDef.gravityScale = getGravityScale();
 	m_body = world->CreateBody(&m_bodyDef);
-
-	m_dynamicCircle.m_p.Set(1.f, 1.f);
-	m_dynamicCircle.m_radius = radius;
 
 	m_fixtureDef.shape = &m_dynamicCircle;
 	m_fixtureDef.density = 1.f;
@@ -34,6 +35,7 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const
 	m_fixtureDef.filter.maskBits = WEAPON | WALL | PLAYER;
 	m_fixtureDef.filter.groupIndex = id++;
 	m_body->CreateFixture(&m_fixtureDef);
+
 }
 
 void Ball::updateBall() 
@@ -69,4 +71,21 @@ int Ball::getId() const
 float Ball::getRadius() const
 {
 	return m_radius;
+}
+
+float Ball::getGravityScale() const
+{
+	switch (int(m_dynamicCircle.m_radius))
+	{
+	case _ball_radius::MEGA_BIG:
+		return 1;
+	case _ball_radius::BIG:
+		return 1.5;
+	case _ball_radius::MEDIUM:
+		return 2;
+	case _ball_radius::SMALL:
+		return 2.5;
+	default:
+		return 0;
+	}
 }

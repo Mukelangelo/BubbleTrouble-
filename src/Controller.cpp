@@ -9,7 +9,9 @@ Controller::Controller()
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity));
 	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity));
-	
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity));
+	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity));
+
 	m_world->SetContactListener(&m_cl);
 }
 

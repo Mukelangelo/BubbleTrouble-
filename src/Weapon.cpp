@@ -49,7 +49,7 @@ void Weapon::initWeapon()
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(WALL_SIZE / 200.f, (WINDOW_HEIGHT - 2 * WALL_SIZE));
+	groundBox.SetAsBox(WALL_SIZE / 200.f, (WINDOW_HEIGHT - WALL_SIZE) / 2.f);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &groundBox;
