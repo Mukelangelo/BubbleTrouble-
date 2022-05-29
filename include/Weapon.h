@@ -25,4 +25,6 @@ private:
 
 	b2World* m_world;
 	b2Fixture* m_fixture;
+
+	sf::Vector2f m_pos;
 };
