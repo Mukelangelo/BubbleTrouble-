@@ -38,12 +38,12 @@ void Controller::run(sf::RenderWindow& window)
 		checkSplit();
 
 		window.clear(sf::Color::White);
-		m_board.draw(window);
 		m_player.draw(window);
 		for (auto& ball : m_balls)
 		{
 			ball.draw(window);
 		}
+		m_board.draw(window);
 		m_caption.draw(window);
 		window.display();
 		
