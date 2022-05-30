@@ -7,10 +7,11 @@ Controller::Controller()
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 2, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity));
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity));
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity));
-	m_balls.push_back(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity));
+
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
 }
@@ -33,7 +34,7 @@ void Controller::run(sf::RenderWindow& window)
 		m_world->Step(m_timeStep, m_velocityIterations, m_positionIterations);
 		for (auto& ball : m_balls) 
 		{
-			ball.updateBall();
+			ball->updateBall();
 		}
 		checkSplit();
 
@@ -41,18 +42,19 @@ void Controller::run(sf::RenderWindow& window)
 		m_player.draw(window);
 		for (auto& ball : m_balls)
 		{
-			ball.draw(window);
+			ball->draw(window);
 		}
 		m_board.draw(window);
 		m_caption.draw(window);
 		window.display();
 		
-		/*
-		if (m_player.handleCollision())
+		
+		if (m_cl.getPlayerHit())
 		{
 			m_caption.removeLive();
+			m_caption.resetTime();
 		}
-		*/
+		
 
 		//if (m_caption.getTime() <= 4 && !played_countdown)
 		//{ //when timer in on the last 5 seconds , a coundown sound is played
@@ -122,15 +124,15 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock)
 {
 	m_player.setLastLoc(); // set last location as current location
 	deltaTime = clock.restart();
-	if (m_player.handleCollision())
-	{
-		//checkBoundries();
+	//if (m_player.handleCollision())
+	//{
+	//	//checkBoundries();
+	//	return false;
+	//}
+	if (!checkBoundries())
 		return false;
-	}
 	m_player.move(deltaTime);
 	
-	//manage collision here (?)
-
 	return true;
 }
 bool Controller::checkBoundries() 
@@ -157,16 +159,17 @@ void Controller::checkSplit()
 	{
 		for (auto it = m_balls.begin(); it < m_balls.end(); it++)
 		{
-			if (it->getId() == index)
+			if ((*it)->getId() == index)
 			{
 				m_player.ballHit();
-				auto radius = it->getRadius() / 2;
-				auto loc = it->getLocation();
+				auto radius = (*it)->getRadius() / 2;
+				auto loc = (*it)->getLocation();
+				m_world->DestroyBody(&(*it)->getBody());
 				m_balls.erase(it);	// split here
 				if (radius > _ball_radius::SMALL)
 				{
-					m_balls.push_back(Ball(loc + sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_rightVelocity));
-					m_balls.push_back(Ball(loc - sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_leftVelocity));
+					m_balls.push_back(std::move(std::make_unique<Ball>(Ball(loc + sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_rightVelocity))));
+					m_balls.push_back(std::move(std::make_unique<Ball>(Ball(loc - sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_leftVelocity))));
 				}
 				return;
 			}

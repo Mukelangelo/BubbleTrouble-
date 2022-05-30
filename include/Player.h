@@ -25,4 +25,5 @@ private:
 
 	b2Body* m_body;
 	b2Fixture* m_fixture;
+	sf::Vector2f m_size;
 };

@@ -1,4 +1,5 @@
 #include "ContactListener.h"
+#include <iostream>
 
 void ContactListener::BeginContact(b2Contact* contact)
 {
@@ -13,6 +14,10 @@ void ContactListener::BeginContact(b2Contact* contact)
 			m_splitInfo.m_index = fb.groupIndex;
 			m_splitInfo.m_split = true;
 		}
+		else if (fa.categoryBits == _entity::PLAYER)
+		{
+			m_playerHit = true;
+		}
 	}
 }
 
@@ -25,4 +30,9 @@ bool ContactListener::getSplit(int& index)
 		return true;
 	}
 	return false;
+}
+
+bool ContactListener::getPlayerHit() const
+{
+	return m_playerHit;
 }

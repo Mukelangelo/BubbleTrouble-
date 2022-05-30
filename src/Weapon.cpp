@@ -17,8 +17,8 @@ void Weapon::activate(const sf::Vector2f& pos)
 	m_obj = sf::RectangleShape(sf::Vector2f(WALL_SIZE / 8.f, WINDOW_HEIGHT));
 	m_obj.setOrigin(m_obj.getSize() / 2.f);
 	m_obj.setFillColor(sf::Color::Magenta);
-	b2Vec2 test = m_body->GetPosition();
-	m_obj.setPosition(sf::Vector2f(test.x, test.y));
+	b2Vec2 bodyPos = m_body->GetPosition();
+	m_obj.setPosition(sf::Vector2f(bodyPos.x, bodyPos.y));
 }
 
 void Weapon::checkEnd() 
