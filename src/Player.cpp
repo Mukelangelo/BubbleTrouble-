@@ -1,15 +1,16 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& pos, b2World* world)
-	: m_world(world)
+	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize())
 {
 	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
-	m_sprite.setPosition(pos);
-	m_sprite.setOrigin((sf::Vector2f)(*Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize() / 2.f);
+	
+	m_sprite.setOrigin(m_size / 2.f);
 	m_lastLoc = m_location = pos;
 	m_speedPerSecond = m_sprite.getScale().x * 200;
 	m_powers.push_back(std::make_unique<Weapon>(m_world));
 	initPlayer(pos);
+	m_sprite.setPosition(sf::Vector2f(m_body->GetPosition().x, m_body->GetPosition().y));
 }
 
 void Player::draw(sf::RenderWindow& window) 
@@ -23,9 +24,12 @@ void Player::draw(sf::RenderWindow& window)
 
 void Player::move(sf::Time deltaTime)
 {
-	m_sprite.move(m_direction * m_speedPerSecond * deltaTime.asSeconds());
+	// m_sprite.move(m_direction * m_speedPerSecond * deltaTime.asSeconds());
 	m_location = m_sprite.getPosition();
-	m_body->SetTransform(b2Vec2(m_location.x, m_location.y), m_body->GetAngle());
+	b2Vec2 pos = m_body->GetPosition();
+	m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+	m_sprite.setPosition(pos.x, pos.y);
+	m_location = m_sprite.getPosition();
 }
 
 void Player::shoot() 
@@ -50,7 +54,7 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(PLAYER_WIDTH / 4.f, WALL_SIZE / 2.f);
+	groundBox.SetAsBox(m_size.x / 2.f, m_size.y / 2.f);
 
 	b2FixtureDef fixtureDef;
 	
@@ -91,8 +95,17 @@ void Player::DirectionImg(int dir)
 	{
 		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_LEFT));
 	}
-	else
+}
+
+void Player::SetStandingImage(int image)
+{
+	if (image == 0)
 	{
 		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
 	}
+	else if (image == 1)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_SHOT));
+	}
+	
 }

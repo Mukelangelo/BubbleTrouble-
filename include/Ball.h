@@ -13,6 +13,7 @@ public:
 	bool getPopStatus() const;
 	int getId() const;
 	float getRadius() const;
+	b2Body& getBody() const;
 
 protected:
 	virtual void DirectionImg(int dir) {};

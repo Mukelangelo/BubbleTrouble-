@@ -6,7 +6,7 @@
 #include <vector>
 #include "macros.h"
 
-const int NUM_OF_PICS = 6;
+const int NUM_OF_PICS = 7;
 
 class Resources
 {
@@ -53,6 +53,7 @@ private:
 	//const std::string soundBuffers[NUM_OF_SOUNDS] = { "startGame.wav" , "victory.wav" , "fire.wav" , "ogre.wav" , "gate.wav" ,
 	//												  "teleport.wav" , "gnome.wav" ,"countdown.wav" };
 
-	const std::string objectTextures[NUM_OF_PICS] = {"batman-stand.png", "red_ball.png", "wall.png", "instructions.png, batman-stand-left.png, batman-stand-right.png"};
+	const std::string objectTextures[NUM_OF_PICS] = {
+		"batman-stand.png", "red_ball.png", "wall.png", "instructions.png", "batman-stand-left.png", "batman-stand-right.png", "batman-shot.png"};
 };
 
