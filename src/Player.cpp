@@ -1,9 +1,9 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& pos, b2World* world)
-	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::PLAYER_GO)).getSize())
+	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize())
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::PLAYER_GO));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
 	
 	m_sprite.setOrigin(m_size / 2.f);
 	m_lastLoc = m_location = pos;
@@ -83,4 +83,29 @@ bool Player::handleCollision()
 void Player::ballHit()
 {
 	m_powers[0]->forceEnd();
+}
+
+void Player::DirectionImg(int dir)
+{
+	if (dir == 1)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_RIGHT));
+	}
+	else if(dir == 0)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_LEFT));
+	}
+}
+
+void Player::SetStandingImage(int image)
+{
+	if (image == 0)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
+	}
+	else if (image == 1)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_SHOT));
+	}
+	
 }
