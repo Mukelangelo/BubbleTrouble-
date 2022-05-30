@@ -17,6 +17,8 @@ public:
 	void draw(sf::RenderWindow& window);
 	bool handleCollision();
 
+	void setLocation(const sf::Vector2f& loc);
+
 protected:
 	virtual void DirectionImg(int dir) override;
 

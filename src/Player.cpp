@@ -109,3 +109,9 @@ void Player::SetStandingImage(int image)
 	}
 	
 }
+
+void Player::setLocation(const sf::Vector2f& loc)
+{
+	GameObject::setLocation(loc);
+	m_body->SetTransform(b2Vec2(loc.x, loc.y), m_body->GetAngle());
+}

@@ -13,6 +13,7 @@ public:
 	virtual void draw(sf::RenderWindow & window) = 0;
 	virtual void checkEnd() = 0;
 	virtual void forceEnd() {}
+	void setActive();
 
 	virtual ~Power() = default;
 
