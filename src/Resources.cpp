@@ -85,9 +85,9 @@ sf::Texture* Resources::getBackground(int index)
 //=======================================================================================
 void Resources::loadBackground()
 {
-	//auto loadPic = sf::Texture();
-	//loadPic.loadFromFile("gamebg.png");
-	//m_bg.push_back(loadPic);
+	auto loadPic = sf::Texture();
+	loadPic.loadFromFile("menu-background.jpg");
+	m_bg.push_back(loadPic);
 
 	//loadPic.loadFromFile("help.png");
 	//m_bg.push_back(loadPic);

@@ -83,6 +83,8 @@ void Controller::run(sf::RenderWindow& window)
 		case sf::Event::KeyPressed:
 			movementManger(deltaTimePlayer, clock);
 			break;
+		default:
+			break;
 		}
 		m_player.handlePowers();
 	}
@@ -114,7 +116,12 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
 				m_player.shoot();
+				m_player.SetStandingImage(1);
 			}
+		}
+		if (event.type == sf::Event::KeyReleased)
+		{
+			m_player.SetStandingImage(0);
 		}
 	}
 	return true;

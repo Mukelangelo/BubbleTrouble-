@@ -21,10 +21,14 @@ enum _entity {
 };
 
 enum _game_objects {
-    PLAYER_GO = 0,
-    BALL_GO = 1,
-    WALL_GO = 2,
-    HELP = 3
+    BATMAN_STAND,
+    BALL_GO,
+    WALL_GO,
+    HELP,
+    BATMAN_WALK_LEFT,
+    BATMAN_WALK_RIGHT,
+    BATMAN_SHOT,
+    LOBBY_BGD
 };
 
 enum _ball_radius {

@@ -1,7 +1,7 @@
 #include "Wall.h"
 
 Wall::Wall(const sf::Vector2f& pos, b2World* world)
-	:m_world(world), m_size((*Resources::instance().getTexture(_game_objects::PLAYER_GO)).getSize())
+	:m_world(world), m_size((*Resources::instance().getTexture(_game_objects::WALL_GO)).getSize())
 {
 	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::WALL_GO));
 	m_sprite.setPosition(pos);

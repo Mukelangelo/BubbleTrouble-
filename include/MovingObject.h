@@ -8,6 +8,7 @@ public:
 
 	virtual void setDirection(sf::Keyboard::Key key);
 	virtual void move(sf::Time deltaTime);
+	virtual void DirectionImg(int dir) = 0;
 
 	void setLastLoc();
 	sf::Vector2f getLastLoc() const;
