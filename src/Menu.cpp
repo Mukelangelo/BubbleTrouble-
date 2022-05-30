@@ -3,7 +3,7 @@
 Menu::Menu()
 	: m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bubble Trouble")
 {
-    m_window.setFramerateLimit(60);
+    m_window.setFramerateLimit(240);
     for (int i = 0; i < MENU_BUTTONS ; i++) // Create the menu buttons
         m_buttons[i] = Button(sf::Vector2f(300, 80), m_texts[i], sf::Vector2f(800, 330 + i * 150)); 
 

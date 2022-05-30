@@ -32,5 +32,4 @@ enum _ball_radius {
     BIG = 50,
     MEDIUM = 25,
     SMALL = 12,
-    DESTROY = 0,
 };

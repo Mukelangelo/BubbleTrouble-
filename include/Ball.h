@@ -13,6 +13,7 @@ public:
 	bool getPopStatus() const;
 	int getId() const;
 	float getRadius() const;
+	b2Body& getBody() const;
 
 private:
 	void initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);

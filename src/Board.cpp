@@ -11,12 +11,12 @@ void Board::draw(sf::RenderWindow& window)
 
 void Board::buildBackGround(b2World* world)
 {
-	for (auto i = 0.f; i <= WINDOW_HEIGHT; i += WALL_SIZE )
-		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(0.f, i), world)));
-	for (auto i = 0.f; i <= WINDOW_HEIGHT; i += WALL_SIZE)
-		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(WINDOW_WIDTH, i), world)));
-	for (auto i = WALL_SIZE * 2; i < WINDOW_WIDTH; i += WALL_SIZE)
-		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, 0.f), world)));
-	for (auto i = WALL_SIZE * 2; i < WINDOW_WIDTH; i += WALL_SIZE)
-		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, WINDOW_HEIGHT), world)));
+	for (auto i = 50.f; i <= WINDOW_WIDTH; i += WALL_SIZE / 2.f)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, 50.f), world)));
+	for (auto i = 50.f; i <= WINDOW_WIDTH; i += WALL_SIZE / 2.f)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(i, WINDOW_HEIGHT - (WALL_SIZE/ 2.f)), world)));
+	for (auto i = 50.f; i < WINDOW_HEIGHT; i += WALL_SIZE / 2.f)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(50.f, i), world)));
+	for (auto i = 50.f; i < WINDOW_HEIGHT; i += WALL_SIZE / 2.f)
+		m_walls.push_back(std::move(std::make_unique<Wall>(sf::Vector2f(WINDOW_WIDTH - (WALL_SIZE / 2.f), i), world)));
 }
