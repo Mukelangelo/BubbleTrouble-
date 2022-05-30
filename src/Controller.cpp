@@ -39,12 +39,12 @@ void Controller::run(sf::RenderWindow& window)
 		checkSplit();
 
 		window.clear(sf::Color::White);
+		m_board.draw(window);
 		m_player.draw(window);
 		for (auto& ball : m_balls)
 		{
 			ball->draw(window);
 		}
-		m_board.draw(window);
 		m_caption.draw(window);
 		window.display();
 		
@@ -129,8 +129,10 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock)
 	//	//checkBoundries();
 	//	return false;
 	//}
+	/*
 	if (!checkBoundries())
 		return false;
+		*/
 	m_player.move(deltaTime);
 	
 	return true;
