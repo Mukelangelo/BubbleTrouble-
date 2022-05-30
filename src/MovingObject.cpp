@@ -13,13 +13,14 @@ void MovingObject::setDirection(sf::Keyboard::Key key)
 	{
 	case sf::Keyboard::Key::Left:
 		m_direction = sf::Vector2f(-1, 0);
-		//DirectionImg(Left);
+		DirectionImg(0);
 		break;
 	case sf::Keyboard::Key::Right:
 		m_direction = sf::Vector2f(1, 0);
-		//DirectionImg(Right);
+		DirectionImg(1);
 		break;
-	default: break;
+	default:
+		break;
 	}
 }
 
