@@ -19,3 +19,8 @@ bool Power::getActiveStatus()
 {
 	return m_isActive;
 }
+
+void Power::setActive()
+{
+	m_isActive = true;
+}

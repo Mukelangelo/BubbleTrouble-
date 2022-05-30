@@ -6,7 +6,7 @@ Controller::Controller()
 {
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
 
 	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
@@ -150,9 +150,9 @@ bool Controller::checkBoundries()
 		m_player.setLocation(sf::Vector2f(WALL_SIZE, temp.y));
 		return false;
 	}
-	if (temp.x + WALL_SIZE > WINDOW_WIDTH - WALL_SIZE) 
+	if (temp.x > WINDOW_WIDTH - WALL_SIZE)
 	{
-		m_player.setLocation(sf::Vector2f(WINDOW_WIDTH - 2 * WALL_SIZE, temp.y));
+		m_player.setLocation(sf::Vector2f(WINDOW_WIDTH - WALL_SIZE, temp.y));
 		return false;
 	}
 
