@@ -14,6 +14,9 @@ public:
 	int getId() const;
 	float getRadius() const;
 
+protected:
+	virtual void DirectionImg(int dir) {};
+
 private:
 	void initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);
 	float getGravityScale() const;

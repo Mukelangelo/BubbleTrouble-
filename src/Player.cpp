@@ -3,9 +3,9 @@
 Player::Player(const sf::Vector2f& pos, b2World* world)
 	: m_world(world)
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::PLAYER_GO));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
 	m_sprite.setPosition(pos);
-	m_sprite.setOrigin((sf::Vector2f)(*Resources::instance().getTexture(_game_objects::PLAYER_GO)).getSize() / 2.f);
+	m_sprite.setOrigin((sf::Vector2f)(*Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize() / 2.f);
 	m_lastLoc = m_location = pos;
 	m_speedPerSecond = m_sprite.getScale().x * 200;
 	m_powers.push_back(std::make_unique<Weapon>(m_world));
@@ -79,4 +79,20 @@ bool Player::handleCollision()
 void Player::ballHit()
 {
 	m_powers[0]->forceEnd();
+}
+
+void Player::DirectionImg(int dir)
+{
+	if (dir == 1)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_RIGHT));
+	}
+	else if(dir == 0)
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_LEFT));
+	}
+	else
+	{
+		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
+	}
 }
