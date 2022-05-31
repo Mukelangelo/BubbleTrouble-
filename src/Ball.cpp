@@ -14,6 +14,7 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& 
 	b2Vec2 physiceLoc(loc.x, loc.y);
 	m_circle.setPosition(physiceLoc.x, physiceLoc.y);
 	m_location = m_circle.getPosition();
+
 }
 
 void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity)
