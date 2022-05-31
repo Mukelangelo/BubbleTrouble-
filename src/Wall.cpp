@@ -30,3 +30,8 @@ void Wall::initWall(const sf::Vector2f& loc)
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
+
+sf::Vector2f Wall::getSize() const
+{
+	return m_size;
+}

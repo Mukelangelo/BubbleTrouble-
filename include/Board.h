@@ -12,4 +12,7 @@ public:
 
 private:
 	std::vector<std::unique_ptr<Wall>> m_walls;
+	std::vector<b2Body*> m_border;
+
+	void buildBorder(b2World* world);
 };

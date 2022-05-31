@@ -6,8 +6,11 @@ class ContactListener : public b2ContactListener
 {
 public:
 	void BeginContact(b2Contact* contact);
+	void EndContact(b2Contact* contact);
+
 	bool getSplit(int &index);
 	bool getPlayerHit() const;
+	bool isPlayerAtBorder();
 
 private:	
 	struct ballToSplitInfo
@@ -18,4 +21,5 @@ private:
 
 	ballToSplitInfo m_splitInfo;
 	bool m_playerHit = false;
+	bool m_blockPlayer = false;
 };

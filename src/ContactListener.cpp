@@ -6,7 +6,6 @@ void ContactListener::BeginContact(b2Contact* contact)
 	b2Filter fa = contact->GetFixtureA()->GetFilterData();
 	b2Filter fb = contact->GetFixtureB()->GetFilterData();
 
-	// all ball contacts
 	if (fb.categoryBits == _entity::BALL)
 	{
 		if (fa.categoryBits == _entity::WEAPON)
@@ -17,6 +16,28 @@ void ContactListener::BeginContact(b2Contact* contact)
 		else if (fa.categoryBits == _entity::PLAYER)
 		{
 			m_playerHit = true;
+		}
+	}
+
+	if (fb.categoryBits == _entity::PLAYER || fa.categoryBits == _entity::PLAYER)
+	{
+		if (fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2))
+		{
+			m_blockPlayer = true;
+		}
+	}
+}
+
+void ContactListener::EndContact(b2Contact* contact)
+{
+	b2Filter fa = contact->GetFixtureA()->GetFilterData();
+	b2Filter fb = contact->GetFixtureB()->GetFilterData();
+
+	if (fb.categoryBits == _entity::PLAYER)
+	{
+		if (fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2))
+		{
+			m_blockPlayer = false;
 		}
 	}
 }
@@ -35,4 +56,9 @@ bool ContactListener::getSplit(int& index)
 bool ContactListener::getPlayerHit() const
 {
 	return m_playerHit;
+}
+
+bool ContactListener::isPlayerAtBorder()
+{
+	return m_blockPlayer;
 }
