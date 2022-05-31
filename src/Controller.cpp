@@ -6,12 +6,12 @@ Controller::Controller()
 {
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE), m_world.get());
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
 
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
 }
@@ -130,34 +130,7 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock) 
 {
 	m_player.setLastLoc(); // set last location as current location
-	deltaTime = clock.restart();
-	//if (m_player.handleCollision())
-	//{
-	//	//checkBoundries();
-	//	return false;
-	//}
-	/*
-	if (!checkBoundries())
-		return false;
-		*/
-	m_player.move(deltaTime);
-	
-	return true;
-}
-bool Controller::checkBoundries() 
-{
-	auto temp = m_player.getLocation();
-	if (temp.x < WALL_SIZE) 
-	{
-		m_player.setLocation(sf::Vector2f(WALL_SIZE, temp.y));
-		return false;
-	}
-	if (temp.x + WALL_SIZE > WINDOW_WIDTH - WALL_SIZE) 
-	{
-		m_player.setLocation(sf::Vector2f(WINDOW_WIDTH - 2 * WALL_SIZE, temp.y));
-		return false;
-	}
-
+	m_player.move(m_cl.isPlayerAtBorder());
 	return true;
 }
 

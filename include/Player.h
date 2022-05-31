@@ -8,7 +8,7 @@ public:
 	Player() = default;
 	Player(const sf::Vector2f& pos, b2World* world);
 
-	void move(sf::Time deltaTime);
+	void move(bool isBlocked);
 	void shoot();
 	void handlePowers();
 	void ballHit();
@@ -16,6 +16,8 @@ public:
 
 	void draw(sf::RenderWindow& window);
 	bool handleCollision();
+
+	void setLocation(const sf::Vector2f& loc);
 
 protected:
 	virtual void DirectionImg(int dir) override;

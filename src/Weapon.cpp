@@ -14,7 +14,7 @@ void Weapon::activate(const sf::Vector2f& pos)
 		return;
 	m_isActive = true;
 	m_pos = pos;
-	m_obj = sf::RectangleShape(sf::Vector2f(WALL_SIZE / 8.f, WINDOW_HEIGHT));
+	m_obj = sf::RectangleShape(sf::Vector2f(WALL_SIZE / 12.f, WINDOW_HEIGHT));
 	m_obj.setOrigin(m_obj.getSize() / 2.f);
 	m_obj.setFillColor(sf::Color::Magenta);
 	b2Vec2 bodyPos = m_body->GetPosition();
@@ -24,7 +24,7 @@ void Weapon::activate(const sf::Vector2f& pos)
 void Weapon::checkEnd() 
 {
 	b2Vec2 position = m_body->GetPosition();
-	if (position.y < 3 * WALL_SIZE)
+	if (position.y < 5 * WALL_SIZE)
 	{
 		
 		m_isActive = false;
@@ -52,7 +52,7 @@ void Weapon::initWeapon()
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox((WALL_SIZE / 8.f) / 2.f, (WINDOW_HEIGHT) / 2.f);
+	groundBox.SetAsBox((WALL_SIZE / 12.f) / 2.f, (WINDOW_HEIGHT) / 2.f);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &groundBox;

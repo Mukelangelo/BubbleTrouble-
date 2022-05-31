@@ -22,12 +22,15 @@ void Player::draw(sf::RenderWindow& window)
 	window.draw(m_sprite);
 }
 
-void Player::move(sf::Time deltaTime)
+void Player::move(bool isBlocked)
 {
 	// m_sprite.move(m_direction * m_speedPerSecond * deltaTime.asSeconds());
 	m_location = m_sprite.getPosition();
 	b2Vec2 pos = m_body->GetPosition();
-	m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+
+	(isBlocked) ? m_body->SetTransform(b2Vec2(m_lastLoc.x, m_lastLoc.y), m_body->GetAngle()) :
+				  m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+
 	m_sprite.setPosition(pos.x, pos.y);
 	m_location = m_sprite.getPosition();
 }
@@ -57,7 +60,6 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	groundBox.SetAsBox(m_size.x / 2.f - b2_polygonRadius, m_size.y / 2.f - b2_polygonRadius);
 
 	b2FixtureDef fixtureDef;
-
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = _entity::PLAYER;
 	fixtureDef.filter.maskBits = _entity::WALL | _entity::BALL;
@@ -108,4 +110,10 @@ void Player::SetStandingImage(int image)
 		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_SHOT));
 	}
 	
+}
+
+void Player::setLocation(const sf::Vector2f& loc)
+{
+	GameObject::setLocation(loc);
+	m_body->SetTransform(b2Vec2(loc.x, loc.y), m_body->GetAngle());
 }
