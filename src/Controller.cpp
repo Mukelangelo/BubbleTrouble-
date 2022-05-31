@@ -9,9 +9,9 @@ Controller::Controller()
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
 }
@@ -41,12 +41,12 @@ void Controller::run(sf::RenderWindow& window)
 		window.clear(sf::Color::White);
 		
 		m_player.draw(window);
+		m_board.draw(window);
+		m_caption.draw(window);
 		for (auto& ball : m_balls)
 		{
 			ball->draw(window);
 		}
-		m_board.draw(window);
-		m_caption.draw(window);
 		window.display();
 		
 		
@@ -74,10 +74,10 @@ void Controller::run(sf::RenderWindow& window)
 			return;
 		}
 		
-		if (clock.getElapsedTime() >= timerLimit)
-		{
-			clock.restart();
-		}
+		//if (clock.getElapsedTime() >= timerLimit)
+		//{
+		//	clock.restart();
+		//}
 
 		switch (event.type)
 		{
@@ -88,6 +88,11 @@ void Controller::run(sf::RenderWindow& window)
 			break;
 		}
 		m_player.handlePowers();
+		if (m_balls.empty())
+		{
+			m_caption.printMessege("YAY! , you won :) KOL HA KAVOD!", window);
+			return;
+		}
 	}
 }
 
