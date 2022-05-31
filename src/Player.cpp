@@ -52,17 +52,17 @@ void Player::handlePowers()
 void Player::initPlayer(const sf::Vector2f& loc)
 {
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_staticBody;
+	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(loc.x, loc.y);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(m_size.x / 2.f - b2_polygonRadius, m_size.y / 2.f - b2_polygonRadius);
+	groundBox.SetAsBox(m_size.x / 2.f, m_size.y / 2.f);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = _entity::PLAYER;
-	fixtureDef.filter.maskBits = _entity::WALL | _entity::BALL;
+	fixtureDef.filter.maskBits = _entity::BALL | _entity::WALL;
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
