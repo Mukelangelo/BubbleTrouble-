@@ -44,14 +44,14 @@ void Resources::setPauseScreen()
 //=======================================================================================
 void Resources::SetButtons()
 {
-	//for (int i = 0; i < MENU_BUTTONS; i++)
-	//{
-	//	m_pauseButtons[i].setTexture(&m_pauseTextures[i]);
-	//	m_pauseButtons[i].setSize(sf::Vector2f(90, 90));
-	//	m_pauseButtons[i].setPosition(sf::Vector2f(620 + i * 100, 380));
-	//}
-	//m_pauseButtons[Music].setOutlineThickness(4);
-	//m_pauseButtons[Music].setOutlineColor(sf::Color::Green);
+	for (int i = 0; i < MENU_BUTTONS; i++)
+	{
+		m_pauseButtons[i].setTexture(&m_pauseTextures[i]);
+		m_pauseButtons[i].setSize(sf::Vector2f(90, 90));
+		m_pauseButtons[i].setPosition(sf::Vector2f(620 + i * 100, 380));
+	}
+	m_pauseButtons[MUSIC].setOutlineThickness(4);
+	m_pauseButtons[MUSIC].setOutlineColor(sf::Color::Green);
 }
 
 //=======================================================================================
@@ -60,8 +60,8 @@ void Resources::loadTextures()
 	for (int i = 0; i < NUM_OF_PICS; i++)
 		m_textures[i].loadFromFile(objectTextures[i]);
 
-	//for (int i = 0; i < MENU_BUTTONS; i++)
-	//	m_pauseTextures[i].loadFromFile(buttonTextures[i]);
+	for (int i = 0; i < MENU_BUTTONS; i++)
+		m_pauseTextures[i].loadFromFile(buttonTextures[i]);
 }
 
 //=======================================================================================
@@ -77,10 +77,10 @@ sf::Texture* Resources::getBackground(int index)
 }
 
 //=======================================================================================
-//sf::RectangleShape* Resources::getPauseButtons(int index)
-//{
-//	return &sf::RectangleShape();
-//}
+sf::RectangleShape* Resources::getPauseButtons(int index)
+{
+	return &m_pauseButtons[index];
+}
 
 //=======================================================================================
 void Resources::loadBackground()
@@ -121,7 +121,7 @@ void Resources::drawPauseScreen(sf::RenderWindow& window)
 	window.draw(m_pauseText);
 	for (int i = 0; i < 3; i++)
 	{
-		//window.draw(m_pauseButtons[i]);
+		window.draw(m_pauseButtons[i]);
 	}
 }
 

@@ -9,9 +9,9 @@ Controller::Controller()
 	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
 }
@@ -41,12 +41,12 @@ void Controller::run(sf::RenderWindow& window)
 		window.clear(sf::Color::White);
 		
 		m_player.draw(window);
+		m_board.draw(window);
+		m_caption.draw(window);
 		for (auto& ball : m_balls)
 		{
 			ball->draw(window);
 		}
-		m_board.draw(window);
-		m_caption.draw(window);
 		window.display();
 		
 		
@@ -74,10 +74,10 @@ void Controller::run(sf::RenderWindow& window)
 			return;
 		}
 		
-		if (clock.getElapsedTime() >= timerLimit)
-		{
-			clock.restart();
-		}
+		//if (clock.getElapsedTime() >= timerLimit)
+		//{
+		//	clock.restart();
+		//}
 
 		switch (event.type)
 		{
@@ -88,6 +88,11 @@ void Controller::run(sf::RenderWindow& window)
 			break;
 		}
 		m_player.handlePowers();
+		if (m_balls.empty())
+		{
+			m_caption.printMessege("YAY! , you won :) KOL HA KAVOD!", window);
+			return;
+		}
 	}
 }
 
@@ -99,7 +104,8 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 			((event.type == sf::Event::KeyPressed) && 
 		    (event.key.code == sf::Keyboard::Escape))) 
 		{
-			return false;
+			if (!pauseMenu(window)) // if 'exit' was pressed
+				return false;
 		}
 
 		if (event.type == sf::Event::KeyPressed) 
@@ -158,4 +164,59 @@ void Controller::checkSplit()
 			}
 		}
 	}
+}
+
+
+bool Controller::pauseMenu(sf::RenderWindow& window)
+{
+	sf::Clock clock;
+	clock.restart();
+
+	while (window.isOpen())
+	{
+		Resources::instance().drawPauseScreen(window);
+		window.display();
+		if (auto event = sf::Event{}; window.waitEvent(event))
+		{
+			if ((event.type == sf::Event::Closed) ||
+				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
+			{
+				m_caption.updateTime(clock.getElapsedTime().asSeconds());
+				return true;
+			}
+
+			switch (event.type)
+			{
+
+			case sf::Event::MouseButtonReleased:
+				auto location = window.mapPixelToCoords(
+					{ event.mouseButton.x, event.mouseButton.y });
+
+				if (event.mouseButton.button == sf::Mouse::Button::Left)
+				{
+					auto buttonClicked = m_caption.handleClick(location);
+
+					if (buttonClicked == _pauseButtons::HOME)
+					{
+						Resources::instance().playMusic();
+						return false;
+					}
+
+					else if (buttonClicked == _pauseButtons::RESTART)
+					{
+						window.clear();
+						//restartLvl();
+						return true;
+					}
+					else if (buttonClicked != _pauseButtons::MUSIC)
+					{
+						m_caption.updateTime(clock.getElapsedTime().asSeconds());
+						return true;
+					}
+				}
+			}
+		}
+	}
+	m_caption.updateTime(clock.getElapsedTime().asSeconds());
+	return true;
 }
