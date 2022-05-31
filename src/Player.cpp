@@ -22,12 +22,15 @@ void Player::draw(sf::RenderWindow& window)
 	window.draw(m_sprite);
 }
 
-void Player::move(sf::Time deltaTime)
+void Player::move(bool isBlocked)
 {
 	// m_sprite.move(m_direction * m_speedPerSecond * deltaTime.asSeconds());
 	m_location = m_sprite.getPosition();
 	b2Vec2 pos = m_body->GetPosition();
-	m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+
+	(isBlocked) ? m_body->SetTransform(b2Vec2(m_lastLoc.x, m_lastLoc.y), m_body->GetAngle()) :
+				  m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+
 	m_sprite.setPosition(pos.x, pos.y);
 	m_location = m_sprite.getPosition();
 }
@@ -57,7 +60,6 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	groundBox.SetAsBox(m_size.x / 2.f, m_size.y / 2.f);
 
 	b2FixtureDef fixtureDef;
-	
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = _entity::PLAYER;
 	fixtureDef.filter.maskBits = _entity::BALL | _entity::WALL;

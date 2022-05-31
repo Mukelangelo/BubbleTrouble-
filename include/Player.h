@@ -8,7 +8,7 @@ public:
 	Player() = default;
 	Player(const sf::Vector2f& pos, b2World* world);
 
-	void move(sf::Time deltaTime);
+	void move(bool isBlocked);
 	void shoot();
 	void handlePowers();
 	void ballHit();
