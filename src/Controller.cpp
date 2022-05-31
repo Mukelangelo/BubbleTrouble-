@@ -99,7 +99,8 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 			((event.type == sf::Event::KeyPressed) && 
 		    (event.key.code == sf::Keyboard::Escape))) 
 		{
-			return false;
+			if (!pauseMenu(window)) // if 'exit' was pressed
+				return false;
 		}
 
 		if (event.type == sf::Event::KeyPressed) 
@@ -158,4 +159,59 @@ void Controller::checkSplit()
 			}
 		}
 	}
+}
+
+
+bool Controller::pauseMenu(sf::RenderWindow& window)
+{
+	sf::Clock clock;
+	clock.restart();
+
+	while (window.isOpen())
+	{
+		Resources::instance().drawPauseScreen(window);
+		window.display();
+		if (auto event = sf::Event{}; window.waitEvent(event))
+		{
+			if ((event.type == sf::Event::Closed) ||
+				((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
+			{
+				m_caption.updateTime(clock.getElapsedTime().asSeconds());
+				return true;
+			}
+
+			switch (event.type)
+			{
+
+			case sf::Event::MouseButtonReleased:
+				auto location = window.mapPixelToCoords(
+					{ event.mouseButton.x, event.mouseButton.y });
+
+				if (event.mouseButton.button == sf::Mouse::Button::Left)
+				{
+					auto buttonClicked = m_caption.handleClick(location);
+
+					if (buttonClicked == _pauseButtons::HOME)
+					{
+						Resources::instance().playMusic();
+						return false;
+					}
+
+					else if (buttonClicked == _pauseButtons::RESTART)
+					{
+						window.clear();
+						//restartLvl();
+						return true;
+					}
+					else if (buttonClicked != _pauseButtons::MUSIC)
+					{
+						m_caption.updateTime(clock.getElapsedTime().asSeconds());
+						return true;
+					}
+				}
+			}
+		}
+	}
+	m_caption.updateTime(clock.getElapsedTime().asSeconds());
+	return true;
 }
