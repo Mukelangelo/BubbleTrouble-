@@ -13,4 +13,5 @@
 											  "Caption.cpp"
 											  "StaticObject.cpp"
 											  "Wall.cpp"
-											  "ContactListener.cpp")
+											  "ContactListener.cpp"
+											  "Animation.cpp")
