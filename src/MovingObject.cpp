@@ -7,21 +7,9 @@ void MovingObject::move(sf::Time deltaTime)
 }
 
 
-void MovingObject::setDirection(sf::Keyboard::Key key)
+void MovingObject::setDirection(sf::Vector2f key)
 {
-	switch (key)
-	{
-	case sf::Keyboard::Key::Left:
-		m_direction = sf::Vector2f(-1, 0);
-		DirectionImg(0);
-		break;
-	case sf::Keyboard::Key::Right:
-		m_direction = sf::Vector2f(1, 0);
-		DirectionImg(1);
-		break;
-	default:
-		break;
-	}
+	m_direction = key;
 }
 
 void MovingObject::setLastLoc()

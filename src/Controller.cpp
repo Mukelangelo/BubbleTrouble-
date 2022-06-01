@@ -73,20 +73,7 @@ void Controller::run(sf::RenderWindow& window)
 		{
 			return;
 		}
-		
-		//if (clock.getElapsedTime() >= timerLimit)
-		//{
-		//	clock.restart();
-		//}
-
-		switch (event.type)
-		{
-		case sf::Event::KeyPressed:
-			movementManger(deltaTimePlayer, clock);
-			break;
-		default:
-			break;
-		}
+		movementManger();
 		m_player.handlePowers();
 		if (m_balls.empty())
 		{
@@ -108,24 +95,6 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 				return false;
 		}
 
-		if (event.type == sf::Event::KeyPressed) 
-		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			{
-				m_player.setDirection(sf::Keyboard::Right);
-			}
-
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			{
-				m_player.setDirection(sf::Keyboard::Left);
-			}
-
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-			{
-				m_player.shoot();
-				m_player.SetStandingImage(1);
-			}
-		}
 		if (event.type == sf::Event::KeyReleased)
 		{
 			m_player.SetStandingImage(0);
@@ -134,10 +103,10 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 	return true;
 }
 
-bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock) 
+bool Controller::movementManger()
 {
 	m_player.setLastLoc(); // set last location as current location
-	m_player.move(m_cl.isPlayerAtBorder());
+	m_player.move(m_cl.isPlayerAtBorder(), getInput());
 	return true;
 }
 
@@ -219,4 +188,35 @@ bool Controller::pauseMenu(sf::RenderWindow& window)
 	}
 	m_caption.updateTime(clock.getElapsedTime().asSeconds());
 	return true;
+}
+
+std::pair<sf::Vector2f, bool> Controller::getInput()
+{
+	std::pair<sf::Vector2f, bool> pair(directionInput(), shootingInput());
+	return pair;
+}
+
+sf::Vector2f Controller::directionInput()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		return sf::Vector2f(1, 0);
+	}	
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		return sf::Vector2f(-1, 0);
+	}
+	else
+	{
+		return sf::Vector2f(0, 0);
+	}
+}
+
+bool Controller::shootingInput()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		return true;
+	}
+	return false;
 }

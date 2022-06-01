@@ -8,15 +8,13 @@ public:
 	Player() = default;
 	Player(const sf::Vector2f& pos, b2World* world);
 
-	void move(bool isBlocked);
+	void move(bool isBlocked, std::pair<sf::Vector2f, bool> input);
 	void shoot();
 	void handlePowers();
 	void ballHit();
 	void SetStandingImage(int image);
 
 	void draw(sf::RenderWindow& window);
-	bool handleCollision();
-
 	void setLocation(const sf::Vector2f& loc);
 
 protected:
