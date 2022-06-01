@@ -22,9 +22,16 @@ void Player::draw(sf::RenderWindow& window)
 	window.draw(m_sprite);
 }
 
-void Player::move(bool isBlocked)
+void Player::move(bool isBlocked, std::pair<sf::Vector2f, bool> input)
 {
 	// m_sprite.move(m_direction * m_speedPerSecond * deltaTime.asSeconds());
+	setDirection(input.first);
+	DirectionImg(input.first.x);
+	if (input.second)
+	{
+		shoot();
+		SetStandingImage(1);
+	}
 	m_location = m_sprite.getPosition();
 	b2Vec2 pos = m_body->GetPosition();
 
@@ -67,21 +74,6 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
 
-bool Player::handleCollision()
-{
-	for (auto edge = m_body->GetContactList(); edge; edge = edge->next)
-	{
-		auto entityA = edge->contact->GetFixtureA()->GetFilterData().categoryBits;
-		auto entityB = edge->contact->GetFixtureB()->GetFilterData().categoryBits;
-		if (entityA == _entity::BALL)
-			return true;
-
-		//if (entityA == _entity::WALL || entityB == _entity::WALL)
-		//	return true;
-	}
-	return false;
-}
-
 void Player::ballHit()
 {
 	m_powers[0]->forceEnd();
@@ -93,7 +85,7 @@ void Player::DirectionImg(int dir)
 	{
 		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_RIGHT));
 	}
-	else if(dir == 0)
+	else if(dir == -1)
 	{
 		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_LEFT));
 	}
