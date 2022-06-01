@@ -1,9 +1,9 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& pos, b2World* world)
-	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize())
+	: m_world(world), m_size((* Resources::instance().getTexture(gameObjects::BATMAN_STAND)).getSize())
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(gameObjects::BATMAN_STAND));
 	
 	m_sprite.setOrigin(m_size / 2.f);
 	m_lastLoc = m_location = pos;
@@ -60,9 +60,10 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	groundBox.SetAsBox(m_size.x / 2.f, m_size.y / 2.f);
 
 	b2FixtureDef fixtureDef;
+
 	fixtureDef.shape = &groundBox;
-	fixtureDef.filter.categoryBits = _entity::PLAYER;
-	fixtureDef.filter.maskBits = _entity::BALL | _entity::WALL;
+	fixtureDef.filter.categoryBits = entity::PLAYER;
+	fixtureDef.filter.maskBits = entity::BALL | entity::WALL | entity::GIFT;
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
@@ -73,7 +74,7 @@ bool Player::handleCollision()
 	{
 		auto entityA = edge->contact->GetFixtureA()->GetFilterData().categoryBits;
 		auto entityB = edge->contact->GetFixtureB()->GetFilterData().categoryBits;
-		if (entityA == _entity::BALL)
+		if (entityA == entity::BALL)
 			return true;
 
 		//if (entityA == _entity::WALL || entityB == _entity::WALL)
@@ -91,11 +92,11 @@ void Player::DirectionImg(int dir)
 {
 	if (dir == 1)
 	{
-		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_RIGHT));
+		m_sprite.setTexture(*Resources::instance().getTexture(gameObjects::BATMAN_WALK_RIGHT));
 	}
 	else if(dir == 0)
 	{
-		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_WALK_LEFT));
+		m_sprite.setTexture(*Resources::instance().getTexture(gameObjects::BATMAN_WALK_LEFT));
 	}
 }
 
@@ -103,11 +104,11 @@ void Player::SetStandingImage(int image)
 {
 	if (image == 0)
 	{
-		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_STAND));
+		m_sprite.setTexture(*Resources::instance().getTexture(gameObjects::BATMAN_STAND));
 	}
 	else if (image == 1)
 	{
-		m_sprite.setTexture(*Resources::instance().getTexture(_game_objects::BATMAN_SHOT));
+		m_sprite.setTexture(*Resources::instance().getTexture(gameObjects::BATMAN_SHOT));
 	}
 	
 }

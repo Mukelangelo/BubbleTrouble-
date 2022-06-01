@@ -11,6 +11,7 @@ public:
 	bool getSplit(int &index);
 	bool getPlayerHit() const;
 	bool isPlayerAtBorder();
+	bool getCollisionGift() const;
 
 private:	
 	struct ballToSplitInfo
@@ -22,4 +23,5 @@ private:
 	ballToSplitInfo m_splitInfo;
 	bool m_playerHit = false;
 	bool m_blockPlayer = false;
+	bool m_giftPlayer = false;
 };

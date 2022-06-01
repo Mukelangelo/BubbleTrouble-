@@ -15,3 +15,9 @@ void GameObject::setLocation(const sf::Vector2f& loc)
 	m_sprite.setPosition(loc);
 	m_location = loc;
 }
+
+sf::Sprite GameObject::getSprite() const
+{
+	return m_sprite;
+}
+

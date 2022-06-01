@@ -13,17 +13,21 @@ constexpr auto BAR_SIZE = 100.f;
 constexpr auto SHOT_WIDTH = 5.f;
 constexpr auto SHOT_HEIGHT = -50;
 
-enum _entity {
+enum entity 
+{
     WALL = 0x0001,
     BALL = 0x0002,
     WEAPON = 0x0004,
     PLAYER = 0x0008,
+    GIFT = 0x0016,
 };
 
-enum _game_objects {
+enum gameObjects 
+{
     BATMAN_STAND,
     BALL_GO,
     WALL_GO,
+    GIFT_GO,
     HELP,
     BATMAN_WALK_LEFT,
     BATMAN_WALK_RIGHT,
@@ -31,14 +35,23 @@ enum _game_objects {
     LOBBY_BGD
 };
 
-enum _ball_radius {
+enum ballRadius 
+{
     MEGA_BIG = 100,
     BIG = 50,
     MEDIUM = 25,
     SMALL = 12,
 };
 
-enum _pauseButtons
+enum pauseButtons
 {
-    HOME, RESTART, MUSIC
+    HOME, 
+    RESTART, 
+    MUSIC
+};
+
+enum gift
+{
+    NORMAL_WEAPON, 
+    HOOK_WEAPON,
 };

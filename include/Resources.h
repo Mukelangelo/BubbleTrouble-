@@ -6,7 +6,7 @@
 #include <vector>
 #include "macros.h"
 
-const int NUM_OF_PICS = 7;
+const int NUM_OF_PICS = 8;
 constexpr auto MENU_BUTTONS = 3;
 
 class Resources
@@ -55,6 +55,6 @@ private:
 	//												  "teleport.wav" , "gnome.wav" ,"countdown.wav" };
 
 	const std::string objectTextures[NUM_OF_PICS] = {
-		"batman-stand.png", "red_ball.png", "wall.png", "instructions.png", "batman-stand-left.png", "batman-stand-right.png", "batman-shot.png"};
+		"batman-stand.png", "red_ball.png", "wall.png", "gift.png", "instructions.png", "batman-stand-left.png", "batman-stand-right.png", "batman-shot.png"};
 };
 

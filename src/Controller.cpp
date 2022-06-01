@@ -10,8 +10,8 @@ Controller::Controller()
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), ballRadius::MEDIUM, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), ballRadius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
 }
@@ -36,6 +36,7 @@ void Controller::run(sf::RenderWindow& window)
 		{
 			ball->updateBall();
 		}
+		m_board.updateGifts();
 		checkSplit();
 
 		window.clear(sf::Color::White);
@@ -138,6 +139,10 @@ bool Controller::movementManger(sf::Time& deltaTime, sf::Clock& clock)
 {
 	m_player.setLastLoc(); // set last location as current location
 	m_player.move(m_cl.isPlayerAtBorder());
+	if (m_cl.getCollisionGift())
+	{
+		m_board.eraseGift(m_player.getSprite(), m_world.get());
+	}
 	return true;
 }
 
@@ -155,10 +160,11 @@ void Controller::checkSplit()
 				auto loc = (*it)->getLocation();
 				m_world->DestroyBody(&(*it)->getBody());
 				m_balls.erase(it);	// split here
-				if (radius > _ball_radius::SMALL)
+				if (radius > ballRadius::SMALL)
 				{
 					m_balls.push_back(std::move(std::make_unique<Ball>(Ball(loc + sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_rightVelocity))));
 					m_balls.push_back(std::move(std::make_unique<Ball>(Ball(loc - sf::Vector2f(radius / 2, 0), radius, m_world.get(), m_leftVelocity))));
+					m_board.addGift(loc, m_world.get());
 				}
 				return;
 			}
@@ -196,19 +202,19 @@ bool Controller::pauseMenu(sf::RenderWindow& window)
 				{
 					auto buttonClicked = m_caption.handleClick(location);
 
-					if (buttonClicked == _pauseButtons::HOME)
+					if (buttonClicked == pauseButtons::HOME)
 					{
 						Resources::instance().playMusic();
 						return false;
 					}
 
-					else if (buttonClicked == _pauseButtons::RESTART)
+					else if (buttonClicked == pauseButtons::RESTART)
 					{
 						window.clear();
 						//restartLvl();
 						return true;
 					}
-					else if (buttonClicked != _pauseButtons::MUSIC)
+					else if (buttonClicked != pauseButtons::MUSIC)
 					{
 						m_caption.updateTime(clock.getElapsedTime().asSeconds());
 						return true;

@@ -14,7 +14,7 @@ Menu::Menu()
     m_help_bar.setPosition(sf::Vector2f(200, 50));
     m_help_bar.setOutlineThickness(3);
     m_help_bar.setOutlineColor(sf::Color::Black);
-    m_help_bar.setTexture(Resources::instance().getTexture(_game_objects::HELP));
+    m_help_bar.setTexture(Resources::instance().getTexture(gameObjects::HELP));
     m_bg = sf::Sprite(*Resources::instance().getBackground(0));
     //m_help_bar.setTexture(Resources::instance().getBackground(1)); 
 

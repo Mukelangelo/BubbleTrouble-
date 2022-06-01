@@ -9,7 +9,7 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& 
 	m_angle = m_body->GetAngle();
 
 	m_circle = sf::CircleShape(radius);
-	m_circle.setTexture(&(* Resources::instance().getTexture(_game_objects::BALL_GO)));
+	m_circle.setTexture(&(* Resources::instance().getTexture(gameObjects::BALL_GO)));
 	m_circle.setOrigin(radius, radius);
 	b2Vec2 physiceLoc(loc.x, loc.y);
 	m_circle.setPosition(physiceLoc.x, physiceLoc.y);
@@ -71,11 +71,11 @@ float Ball::getGravityScale() const
 	auto val = int(m_dynamicCircle.m_radius * 2);
 	switch (val)
 	{
-	case _ball_radius::MEGA_BIG:
+	case ballRadius::MEGA_BIG:
 		return 1;
-	case _ball_radius::BIG:
+	case ballRadius::BIG:
 		return 2.5;
-	case _ball_radius::MEDIUM:
+	case ballRadius::MEDIUM:
 		return 3.5;
 	default:
 		return 4;

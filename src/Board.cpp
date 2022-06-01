@@ -7,6 +7,8 @@ void Board::draw(sf::RenderWindow& window)
 	{
 		wall->draw(window);
 	}
+	for (auto& gift : m_gifts)
+		gift->draw(window);
 }
 
 void Board::buildBackGround(b2World* world)
@@ -38,7 +40,7 @@ void Board::buildBorder(b2World* world)
 
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = WALL;
-	fixtureDef.filter.maskBits = _entity::BALL | _entity::PLAYER;
+	fixtureDef.filter.maskBits = entity::BALL | entity::PLAYER;
 	fixtureDef.filter.groupIndex = -1;
 
 	m_border[0]->CreateFixture(&fixtureDef);
@@ -48,4 +50,30 @@ void Board::buildBorder(b2World* world)
 
 	fixtureDef.filter.groupIndex = -2;
 	m_border[1]->CreateFixture(&fixtureDef);
+}
+//=======================================================================================
+void Board::addGift(const sf::Vector2f& loc, b2World* world)
+{
+	m_gifts.push_back(std::move(std::make_unique<Gift>(Gift(loc, world, 1))));
+}
+//=======================================================================================
+void Board::eraseGift(const sf::Sprite& sprite, b2World* world)
+{
+	for (auto gift = m_gifts.begin(); gift != m_gifts.end(); gift++)
+	{
+		if ((*gift)->getRectangle().getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			world->DestroyBody(&(*gift)->getBody());
+			m_gifts.erase(gift);
+			break;
+		}
+	}
+}
+//=======================================================================================
+void Board::updateGifts()
+{
+	for (auto& gift : m_gifts)
+	{
+		gift->updateGift();
+	}
 }

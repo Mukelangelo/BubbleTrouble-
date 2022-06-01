@@ -13,4 +13,6 @@
 											  "Caption.cpp"
 											  "StaticObject.cpp"
 											  "Wall.cpp"
-											  "ContactListener.cpp")
+											  "ContactListener.cpp"
+											  "HookWeapon.cpp"
+											  "Gift.cpp")

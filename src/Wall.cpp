@@ -1,9 +1,9 @@
 #include "Wall.h"
 
 Wall::Wall(const sf::Vector2f& pos, b2World* world)
-	:m_world(world), m_size((*Resources::instance().getTexture(_game_objects::WALL_GO)).getSize())
+	:m_world(world), m_size((*Resources::instance().getTexture(gameObjects::WALL_GO)).getSize())
 {
-	m_sprite = sf::Sprite(*Resources::instance().getTexture(_game_objects::WALL_GO));
+	m_sprite = sf::Sprite(*Resources::instance().getTexture(gameObjects::WALL_GO));
 	m_sprite.setPosition(pos);
 	m_sprite.setOrigin(m_size / 2.f);
 	m_sprite.setScale(sf::Vector2f(1.05f, 1.05f));
@@ -26,7 +26,7 @@ void Wall::initWall(const sf::Vector2f& loc)
 
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = WALL;
-	fixtureDef.filter.maskBits = _entity::BALL | _entity::PLAYER;
+	fixtureDef.filter.maskBits = entity::BALL | entity::PLAYER;
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }
