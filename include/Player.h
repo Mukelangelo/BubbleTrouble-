@@ -19,7 +19,7 @@ public:
 
 protected:
 	virtual void DirectionImg(int dir) override;
-
+	//hola bilbala
 private:
 	void initPlayer(const sf::Vector2f& loc);
 
