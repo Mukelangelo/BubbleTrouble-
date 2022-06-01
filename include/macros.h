@@ -37,3 +37,8 @@ enum _ball_radius {
     MEDIUM = 25,
     SMALL = 12,
 };
+
+enum _pauseButtons
+{
+    HOME, RESTART, MUSIC
+};

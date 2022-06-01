@@ -6,7 +6,7 @@ class MovingObject : public GameObject {
 public:
 	//MovingObject(sf::Vector2f loc, const sf::Texture& texture);
 
-	virtual void setDirection(sf::Keyboard::Key key);
+	virtual void setDirection(sf::Vector2f key);
 	virtual void move(sf::Time deltaTime);
 	virtual void DirectionImg(int dir) = 0;
 

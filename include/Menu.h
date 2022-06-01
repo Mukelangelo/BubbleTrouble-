@@ -4,8 +4,6 @@
 #include "Button.h"
 #include "macros.h"
 
-constexpr int MENU_BUTTONS = 3;
-
 class Menu
 {
 public:

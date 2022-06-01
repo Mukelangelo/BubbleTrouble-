@@ -7,6 +7,7 @@
 #include "macros.h"
 
 const int NUM_OF_PICS = 7;
+constexpr auto MENU_BUTTONS = 3;
 
 class Resources
 {
@@ -16,7 +17,7 @@ public:
 
 	sf::Texture* getTexture(int i);
 	sf::Texture* getBackground(int index);
-	//sf::RectangleShape* getPauseButtons(int index);
+	sf::RectangleShape* getPauseButtons(int index);
 	sf::Font* getFont();
 	void drawPauseScreen(sf::RenderWindow& window);
 	void playMusic();
@@ -39,16 +40,16 @@ private:
 	void SetButtons();
 
 	sf::RectangleShape m_pauseWindow;
-	//sf::RectangleShape m_pauseButtons[MENU_BUTTONS];
+	sf::RectangleShape m_pauseButtons[MENU_BUTTONS];
 	sf::Text m_pauseText;
 
-	//sf::Texture m_pauseTextures[MENU_BUTTONS];
+	sf::Texture m_pauseTextures[MENU_BUTTONS];
 
 	sf::Texture m_textures[NUM_OF_PICS];
 	std::vector < sf::Texture > m_bg;
 	sf::Font m_font;
 
-	//const std::string buttonTextures[MENU_BUTTONS] = { "home-button.png" , "restart-button.png" , "music-button.png" };
+	const std::string buttonTextures[MENU_BUTTONS] = { "home-button.png" , "restart-button.png" , "music-button.png" };
 
 	//const std::string soundBuffers[NUM_OF_SOUNDS] = { "startGame.wav" , "victory.wav" , "fire.wav" , "ogre.wav" , "gate.wav" ,
 	//												  "teleport.wav" , "gnome.wav" ,"countdown.wav" };

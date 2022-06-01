@@ -15,9 +15,12 @@ public:
 
 private:
 	bool eventHandler(sf::Event& event, sf::RenderWindow& window);
-	bool movementManger(sf::Time& deltaTime, sf::Clock& clock);
-	bool checkBoundries();
+	bool movementManger();
 	void checkSplit();
+	bool pauseMenu(sf::RenderWindow& window);
+	std::pair<sf::Vector2f, bool> getInput();
+	sf::Vector2f directionInput();
+	bool shootingInput();
 
 	Board m_board;
 	Player m_player;

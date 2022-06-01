@@ -11,9 +11,10 @@ Ball::Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& 
 	m_circle = sf::CircleShape(radius);
 	m_circle.setTexture(&(* Resources::instance().getTexture(_game_objects::BALL_GO)));
 	m_circle.setOrigin(radius, radius);
-	b2Vec2 test(loc.x, loc.y);
-	m_circle.setPosition(test.x, test.y);
+	b2Vec2 physiceLoc(loc.x, loc.y);
+	m_circle.setPosition(physiceLoc.x, physiceLoc.y);
 	m_location = m_circle.getPosition();
+
 }
 
 void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity)
@@ -24,9 +25,6 @@ void Ball::initBall(const sf::Vector2f& loc, float radius, b2World* world, const
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(loc.x, loc.y);
 	m_bodyDef.linearVelocity = velocity;
-
-	//if(radius == _ball_radius::SMALL)
-	//	m_bodyDef.linearVelocity = b2Vec2(velocity.x, 50.f);
 
 	m_bodyDef.gravityScale = getGravityScale();
 	m_body = world->CreateBody(&m_bodyDef);
