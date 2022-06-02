@@ -21,6 +21,7 @@ private:
 	std::pair<sf::Vector2f, bool> getInput();
 	sf::Vector2f directionInput();
 	bool shootingInput();
+	void restartLvl();
 
 	Board m_board;
 	Player m_player;

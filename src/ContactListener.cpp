@@ -62,3 +62,9 @@ bool ContactListener::isPlayerAtBorder()
 {
 	return m_blockPlayer;
 }
+
+void ContactListener::restartFlags()
+{
+	m_playerHit = false;
+	m_blockPlayer = false;
+}

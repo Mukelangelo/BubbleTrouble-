@@ -9,6 +9,7 @@ public:
 	Board() = default;
 	void buildBackGround(b2World* world);
 	void draw(sf::RenderWindow& window);
+	void restartBoard();
 
 private:
 	std::vector<std::unique_ptr<Wall>> m_walls;
