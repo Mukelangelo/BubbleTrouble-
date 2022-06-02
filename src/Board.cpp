@@ -42,10 +42,15 @@ void Board::buildBorder(b2World* world)
 	fixtureDef.filter.groupIndex = -1;
 
 	m_border[0]->CreateFixture(&fixtureDef);
-
 	bodyDef.position.Set(WINDOW_WIDTH - WALL_SIZE / 2.f, WINDOW_HEIGHT - WALL_SIZE * 1.5f);
 	m_border.push_back(world->CreateBody(&bodyDef));
 
 	fixtureDef.filter.groupIndex = -2;
 	m_border[1]->CreateFixture(&fixtureDef);
+}
+
+void Board::restartBoard()
+{
+	m_border.clear();
+	m_walls.clear();
 }

@@ -11,6 +11,7 @@ public:
 	bool getSplit(int &index);
 	bool getPlayerHit() const;
 	bool isPlayerAtBorder();
+	void restartFlags();
 
 private:	
 	struct ballToSplitInfo

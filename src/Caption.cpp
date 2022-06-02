@@ -83,7 +83,7 @@ void Caption::draw(sf::RenderWindow& window)
 }
 
 //=======================================================================================
-void Caption::printMessege(const sf::String text, sf::RenderWindow& window)
+void Caption::printMessege(const sf::String text, sf::RenderWindow& window, bool timeBased)
 {
 	//set the message settings
 	auto message = sf::Text(text, *Resources::instance().getFont());
@@ -103,11 +103,23 @@ void Caption::printMessege(const sf::String text, sf::RenderWindow& window)
 	window.display();
 	auto event = sf::Event{};
 
-	while (window.waitEvent(event)) // wait until Space is pressed
+	if (!timeBased)
 	{
-		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)
-			|| (event.type == sf::Event::Closed))
-			return;
+		while (window.waitEvent(event)) // wait until Space is pressed
+		{
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Space)
+				|| (event.type == sf::Event::Closed))
+			{
+				return;
+			}
+		}
+	}
+	else
+	{
+		sf::Clock wait;
+		wait.restart();
+		while (wait.getElapsedTime().asSeconds() != 1.f);
+		return;
 	}
 }
 
