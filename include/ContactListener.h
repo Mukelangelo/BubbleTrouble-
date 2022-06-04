@@ -10,10 +10,11 @@ public:
 
 	bool getSplit(int &index);
 	bool getPlayerHit() const;
-	bool isPlayerAtBorder();
+	int isPlayerAtBorder();
 	void restartFlags();
 
-private:	
+private:
+	int setPlayerBlock(b2Contact* contact);
 	struct ballToSplitInfo
 	{
 		bool m_split = false;
@@ -22,5 +23,5 @@ private:
 
 	ballToSplitInfo m_splitInfo;
 	bool m_playerHit = false;
-	bool m_blockPlayer = false;
+	int m_blockPlayer = -1;
 };

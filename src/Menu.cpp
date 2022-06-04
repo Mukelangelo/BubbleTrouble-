@@ -4,8 +4,11 @@ Menu::Menu()
 	: m_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bubble Trouble")
 {
     m_window.setFramerateLimit(240);
-    for (int i = 0; i < MENU_BUTTONS ; i++) // Create the menu buttons
-        m_buttons[i] = Button(sf::Vector2f(300, 80), m_texts[i], sf::Vector2f(800, 330 + i * 150)); 
+    for (int i = 0; i < MENU_BUTTONS; i++) // Create the menu buttons
+    {
+        m_buttons[i] = Button(sf::Vector2f(300, 80), m_texts[i], sf::Vector2f(800, 330 + i * 150));
+        m_gameModeButtons[i] = Button(sf::Vector2f(300, 80), m_gameModeTexts[i], sf::Vector2f(800, 330 + i * 150));
+    }
 
     m_gameOn = m_need_help = false;
 
@@ -87,43 +90,76 @@ void Menu::eventsHandler()
 //=======================================================================================
 void Menu::game()
 {
-    Controller(true).run(m_window);
-    m_gameOn = false;
+    //Controller(false).run(m_window);
+    //m_gameOn = false;
 }
 
 //=======================================================================================
 void Menu::draw()
 {
-    for (int i = 0; i < MENU_BUTTONS; i++)
+    if (!m_gameOn)
     {
-        m_buttons[i].draw(m_window);
+        for (int i = 0; i < MENU_BUTTONS; i++)
+        {
+            m_buttons[i].draw(m_window);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < MENU_BUTTONS; i++)
+        {
+            m_gameModeButtons[i].draw(m_window);
+        }
     }
 }
 
 //=======================================================================================
 void Menu::handleButtons(const sf::Vector2f& location)
 {
-    for (int i = 0; i < MENU_BUTTONS; i++)
+    if (!m_gameOn)
     {
-        if (m_buttons[i].handleClick(location)) 
-        {  
-            switch (i)
+        for (int i = 0; i < MENU_BUTTONS; i++)
+        {
+            if (m_buttons[i].handleClick(location))
             {
-            case 0:
-                m_gameOn = true; 
-                break;
+                switch (i)
+                {
+                case 0:
+                    m_gameOn = true;
+                    break;
 
-            case 1:
-                m_need_help = true;
-                break;
+                case 1:
+                    m_need_help = true;
+                    break;
 
-            case 2:
-                m_window.close();
-                break;
-            default:
-                break;
+                case 2:
+                    m_window.close();
+                    break;
+                default:
+                    break;
+                }
             }
         }
+    }
+    else
+    {
+        for (int i = 0; i < MENU_BUTTONS; i++)
+        {
+            if (m_gameModeButtons[i].handleClick(location))
+            {
+                switch (i)
+                {
+                case 0:
+                    Controller(false).run(m_window);
+                    break;
+
+                case 1:
+                    Controller(true).run(m_window);
+                    break;
+                }
+            }
+        }
+        m_gameOn = false;
     }
 }
 
@@ -131,14 +167,31 @@ void Menu::handleButtons(const sf::Vector2f& location)
 void Menu::handleHover(const sf::Vector2f& location)
 {
     m_buttons[m_lastHover].setColor(); // return to default color
-    for (int i = 0; i < MENU_BUTTONS; i++)
+    m_gameModeButtons[m_lastHover].setColor();
+    if (!m_gameOn)
     {
-        if (m_buttons[i].getGlobalBounds().contains(location))
+        for (int i = 0; i < MENU_BUTTONS; i++)
         {
-            // change the color if hovered over the button
-            m_buttons[i].setColor(sf::Color(0, 137, 255)); 
+            if (m_buttons[i].getGlobalBounds().contains(location))
+            {
+                // change the color if hovered over the button
+                m_buttons[i].setColor(sf::Color(0, 137, 255));
 
-            m_lastHover = i; // set current button as the last button hovered over
+                m_lastHover = i; // set current button as the last button hovered over
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < MENU_BUTTONS; i++)
+        {
+            if (m_gameModeButtons[i].getGlobalBounds().contains(location))
+            {
+                // change the color if hovered over the button
+                m_gameModeButtons[i].setColor(sf::Color(0, 137, 255));
+
+                m_lastHover = i; // set current button as the last button hovered over
+            }
         }
     }
 }

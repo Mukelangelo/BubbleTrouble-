@@ -24,7 +24,7 @@ void ContactListener::BeginContact(b2Contact* contact)
 		if ((fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2)) ||
 			(fb.categoryBits == _entity::WALL && (fb.groupIndex == -1 || fb.groupIndex == -2)))
 		{
-			m_blockPlayer = true;
+			m_blockPlayer = setPlayerBlock(contact);
 		}
 	}
 }
@@ -39,7 +39,7 @@ void ContactListener::EndContact(b2Contact* contact)
 		if ((fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2)) ||
 			(fb.categoryBits == _entity::WALL && (fb.groupIndex == -1 || fb.groupIndex == -2)))
 		{
-			m_blockPlayer = false;
+			m_blockPlayer = -1;
 		}
 	}
 }
@@ -60,7 +60,7 @@ bool ContactListener::getPlayerHit() const
 	return m_playerHit;
 }
 
-bool ContactListener::isPlayerAtBorder()
+int ContactListener::isPlayerAtBorder()
 {
 	return m_blockPlayer;
 }
@@ -68,5 +68,20 @@ bool ContactListener::isPlayerAtBorder()
 void ContactListener::restartFlags()
 {
 	m_playerHit = false;
-	m_blockPlayer = false;
+	m_blockPlayer = -1;
+}
+
+int ContactListener::setPlayerBlock(b2Contact* contact)
+{
+	b2Filter fa = contact->GetFixtureA()->GetFilterData();
+	b2Filter fb = contact->GetFixtureB()->GetFilterData();
+
+	if (fa.categoryBits == _entity::PLAYER)
+	{
+		return fa.groupIndex;
+	}
+	else
+	{
+		return fb.groupIndex;
+	}
 }
