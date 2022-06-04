@@ -7,7 +7,7 @@ Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf
 	initPlayer(pos);
 
 	m_speed = speed;
-	m_row = 0;
+	m_row = 1;
 	m_faceRight = true;
 	m_character.setSize(sf::Vector2f(50.0f, 100.0f));
 	m_character.setPosition(sf::Vector2f(300.0f, 300.0f));
@@ -27,7 +27,6 @@ void Player::draw(sf::RenderWindow& window)
 	{
 		pow->draw(window);
 	}
-	//window.draw(m_sprite);
 	window.draw(m_character);
 }
 
@@ -38,7 +37,7 @@ void Player::move(bool isBlocked, std::pair<sf::Vector2f, bool> input, float del
 	if (input.second)
 	{
 		shoot();
-		SetStandingImage(1);
+		SetStandingImage(1, 1.0f);
 	}
 	m_location = m_character.getPosition();
 	b2Vec2 pos = m_body->GetPosition();
@@ -92,43 +91,34 @@ void Player::DirectionImg(int dir, float deltaTime)
 	if (dir == 1)
 	{
 		m_faceRight = false;
-		sf::Texture texture;
-		texture.loadFromFile("batman-right-flow.png");
-		Animation animation(&texture, sf::Vector2u(4, 1), 0.2f);
-		m_character.setTextureRect(animation.uvRect);
+		m_row = 2;
 		m_animation.Update(m_row, deltaTime, m_faceRight);
 		m_character.setTextureRect(m_animation.uvRect);
+		
 	}
 	else if(dir == -1)
 	{
 		m_faceRight = true;
-		sf::Texture texture;
-		texture.loadFromFile("batman-right-flow.png");
-		Animation animation(&texture, sf::Vector2u(4, 1), 0.2f);
-		m_character.setTextureRect(animation.uvRect);
+		m_row = 2;
 		m_animation.Update(m_row, deltaTime, m_faceRight);
 		m_character.setTextureRect(m_animation.uvRect);
+		
 	}
 }
 
-void Player::SetStandingImage(int image)
+void Player::SetStandingImage(int image, float deltaTime)
 {
 	if (image == 0)
 	{
-		//sf::Texture texture;
-		//texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
-		//Animation animation(&texture, sf::Vector2u(1, 1), 1.0f);
-		//m_animation.Update(m_row, 1.0f, m_faceRight);
-		//m_character.setTextureRect(animation.uvRect);
-		//m_character.setTexture(Resources::instance().getTexture(_game_objects::BATMAN_STAND));
+		m_row = 1;
+		m_animation.Update(m_row, deltaTime, m_faceRight);
+		m_character.setTextureRect(m_animation.uvRect);
 	}
 	else if (image == 1)
 	{
-		/*sf::Texture texture;
-		texture = *Resources::instance().getTexture(_game_objects::BATMAN_SHOT);
-		Animation animation(&texture, sf::Vector2u(1, 1), 1.0f);
-		m_character.setTextureRect(animation.uvRect);*/
-		//m_character.setTexture(Resources::instance().getTexture(_game_objects::BATMAN_SHOT));
+		m_row = 0;
+		m_animation.Update(m_row, deltaTime, m_faceRight);
+		m_character.setTextureRect(m_animation.uvRect);
 	}
 	
 }

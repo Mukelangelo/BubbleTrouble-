@@ -14,7 +14,7 @@ public:
 	void shoot();
 	void handlePowers();
 	void ballHit();
-	void SetStandingImage(int image);
+	void SetStandingImage(int image, float deltaTime);
 
 	void draw(sf::RenderWindow& window);
 	void setLocation(const sf::Vector2f& loc);
@@ -34,7 +34,7 @@ private:
 	
 	sf::RectangleShape m_character;
 	Animation m_animation;
-	unsigned int m_row = 0;
+	unsigned int m_row = 1;
 	float m_speed = 0.0f;
 	bool m_faceRight = true;
 };

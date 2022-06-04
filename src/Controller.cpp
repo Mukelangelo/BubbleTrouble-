@@ -6,12 +6,12 @@ Controller::Controller()
 	: m_board(), m_player(), m_caption()
 {
 	//sf::Texture texture;
-	m_texture.loadFromFile("batman-right-flow.png");
+	m_texture.loadFromFile("flow2.png");
 	//m_texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
 
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(4,1), 0.2f, 200.0f);
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3,3), 0.2f, 200.0f);
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
@@ -107,7 +107,7 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 
 		if (event.type == sf::Event::KeyReleased)
 		{
-			m_player.SetStandingImage(0);
+			m_player.SetStandingImage(0, 1.0f);
 		}
 	}
 	return true;
@@ -212,14 +212,17 @@ sf::Vector2f Controller::directionInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
+		//m_texture.loadFromFile("batman-right-flow.png");
 		return sf::Vector2f(1, 0);
 	}	
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
+		//m_texture.loadFromFile("batman-right-flow.png");
 		return sf::Vector2f(-1, 0);
 	}
 	else
 	{
+		//m_texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
 		return sf::Vector2f(0, 0);
 	}
 }
