@@ -29,6 +29,7 @@ private:
 	//Player m_player;
 	std::vector<std::unique_ptr<Player>> m_player;
 	sf::Texture m_texture;
+	sf::Texture m_textureSecondPlayer;
 	std::vector<std::unique_ptr<Ball>> m_balls;	// later to be vector ot smth
 
 	b2Vec2 m_garvity = b2Vec2(0.f, 10.0f);
