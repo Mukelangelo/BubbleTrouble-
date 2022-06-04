@@ -1,12 +1,17 @@
 #include "Controller.h"
+
 #include <iostream>
 
 Controller::Controller()
 	: m_board(), m_player(), m_caption()
 {
+	//sf::Texture texture;
+	m_texture.loadFromFile("batman-right-flow.png");
+	//m_texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
+
 	m_world = std::make_unique<b2World>(m_garvity);
 	m_board.buildBackGround(m_world.get());
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(4,1), 0.2f, 200.0f);
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
@@ -18,10 +23,10 @@ Controller::Controller()
 
 void Controller::run(sf::RenderWindow& window) 
 {
+	float deltaTime = 0.0f;
+	sf::Clock clock2;
+
 	sf::Event event;
-	const sf::Time timerLimit = sf::seconds(0.1f);
-	sf::Clock clock;
-	sf::Time deltaTimePlayer;
 
 	m_caption.updateLevel();
 	m_caption.updateTime(STAGE_TIME);
@@ -31,6 +36,9 @@ void Controller::run(sf::RenderWindow& window)
 	
 	while (window.isOpen()) 
 	{
+		deltaTime = clock2.restart().asSeconds();
+
+
 		m_world->Step(m_timeStep, m_velocityIterations, m_positionIterations);
 		for (auto& ball : m_balls) 
 		{
@@ -40,6 +48,8 @@ void Controller::run(sf::RenderWindow& window)
 
 		window.clear(sf::Color::White);
 		
+		//m_player.Update(deltaTime);
+
 		m_player.draw(window);
 		m_board.draw(window);
 		m_caption.draw(window);
@@ -73,7 +83,7 @@ void Controller::run(sf::RenderWindow& window)
 		{
 			return;
 		}
-		movementManger();
+		movementManger(deltaTime);
 		m_player.handlePowers();
 		if (m_balls.empty())
 		{
@@ -103,10 +113,10 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 	return true;
 }
 
-bool Controller::movementManger()
+bool Controller::movementManger(float deltaTime)
 {
 	m_player.setLastLoc(); // set last location as current location
-	m_player.move(m_cl.isPlayerAtBorder(), getInput());
+	m_player.move(m_cl.isPlayerAtBorder(), getInput(), deltaTime);
 	return true;
 }
 
@@ -140,6 +150,8 @@ bool Controller::pauseMenu(sf::RenderWindow& window)
 {
 	sf::Clock clock;
 	clock.restart();
+
+	float deltaTime;
 
 	while (window.isOpen())
 	{

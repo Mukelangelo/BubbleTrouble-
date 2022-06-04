@@ -5,6 +5,7 @@
 #include "Wall.h"
 #include "Caption.h"
 #include "ContactListener.h"
+#include "Animation.h"
 
 class Controller {
 public:
@@ -15,7 +16,7 @@ public:
 
 private:
 	bool eventHandler(sf::Event& event, sf::RenderWindow& window);
-	bool movementManger();
+	bool movementManger(float deltaTime);
 	void checkSplit();
 	bool pauseMenu(sf::RenderWindow& window);
 	std::pair<sf::Vector2f, bool> getInput();
@@ -24,6 +25,7 @@ private:
 
 	Board m_board;
 	Player m_player;
+	sf::Texture m_texture;
 	std::vector<std::unique_ptr<Ball>> m_balls;	// later to be vector ot smth
 
 	b2Vec2 m_garvity = b2Vec2(0.f, 10.0f);
