@@ -5,20 +5,6 @@
 Controller::Controller()
 	: m_board(), m_player(), m_caption()
 {
-	//sf::Texture texture;
-	m_texture.loadFromFile("flow2.png");
-	//m_texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
-
-	m_world = std::make_unique<b2World>(m_garvity);
-	m_board.buildBackGround(m_world.get());
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3,3), 0.2f, 200.0f);
-
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
-	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
-
-	m_world->SetContactListener(&m_cl);
 	restartLvl();
 }
 
@@ -241,11 +227,12 @@ bool Controller::shootingInput()
 
 void Controller::restartLvl()
 {
+	m_texture.loadFromFile("flow2.png");
 	//clearLastLevel();
 	m_balls.clear();
 	m_board.restartBoard();
 	m_world = std::make_unique<b2World>(m_garvity);
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f);
 	m_board.buildBackGround(m_world.get());
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
