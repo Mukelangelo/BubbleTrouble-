@@ -21,7 +21,8 @@ void ContactListener::BeginContact(b2Contact* contact)
 
 	if (fb.categoryBits == _entity::PLAYER || fa.categoryBits == _entity::PLAYER)
 	{
-		if (fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2))
+		if ((fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2)) ||
+			(fb.categoryBits == _entity::WALL && (fb.groupIndex == -1 || fb.groupIndex == -2)))
 		{
 			m_blockPlayer = true;
 		}
@@ -33,9 +34,10 @@ void ContactListener::EndContact(b2Contact* contact)
 	b2Filter fa = contact->GetFixtureA()->GetFilterData();
 	b2Filter fb = contact->GetFixtureB()->GetFilterData();
 
-	if (fb.categoryBits == _entity::PLAYER)
+	if (fb.categoryBits == _entity::PLAYER || fa.categoryBits == _entity::PLAYER)
 	{
-		if (fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2))
+		if ((fa.categoryBits == _entity::WALL && (fa.groupIndex == -1 || fa.groupIndex == -2)) ||
+			(fb.categoryBits == _entity::WALL && (fb.groupIndex == -1 || fb.groupIndex == -2)))
 		{
 			m_blockPlayer = false;
 		}

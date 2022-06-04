@@ -10,7 +10,8 @@
 class Controller {
 public:
 	// default c-stor
-	Controller();
+	Controller() = default;
+	Controller(bool secondPlayer);
 	// run the game
 	void run(sf::RenderWindow& window);
 
@@ -19,13 +20,14 @@ private:
 	bool movementManger(float deltaTime);
 	void checkSplit();
 	bool pauseMenu(sf::RenderWindow& window);
-	std::pair<sf::Vector2f, bool> getInput();
-	sf::Vector2f directionInput();
-	bool shootingInput();
+	std::pair<sf::Vector2f, bool> getInput(int playerId);
+	sf::Vector2f directionInput(int playerId);
+	bool shootingInput(int playerId);
 	void restartLvl();
 
 	Board m_board;
-	Player m_player;
+	//Player m_player;
+	std::vector<std::unique_ptr<Player>> m_player;
 	sf::Texture m_texture;
 	std::vector<std::unique_ptr<Ball>> m_balls;	// later to be vector ot smth
 

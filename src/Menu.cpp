@@ -15,10 +15,7 @@ Menu::Menu()
     m_help_bar.setOutlineThickness(3);
     m_help_bar.setOutlineColor(sf::Color::Black);
     m_help_bar.setTexture(Resources::instance().getTexture(_game_objects::HELP));
-    m_bg = sf::Sprite(*Resources::instance().getBackground(0));
-    //m_help_bar.setTexture(Resources::instance().getBackground(1)); 
-
-    //m_bg = sf::Sprite(*Resources::instance().getBackground(2));
+    m_bg = sf::Sprite(*Resources::instance().getBackground(0)); 
 
     // set window icon 
     //auto icon = sf::Image{};
@@ -90,7 +87,7 @@ void Menu::eventsHandler()
 //=======================================================================================
 void Menu::game()
 {
-    Controller().run(m_window);
+    Controller(true).run(m_window);
     m_gameOn = false;
 }
 
