@@ -25,8 +25,10 @@ private:
 
 	sf::RenderWindow m_window; 
 	sf::String m_texts[MENU_BUTTONS] = { "Start game", "Help", "Exit" };
+	sf::String m_gameModeTexts[MENU_BUTTONS] = { "Solo", "Dou", "Back"};
 
 	Button m_buttons[MENU_BUTTONS]; // menu buttons
+	Button m_gameModeButtons[MENU_BUTTONS];
 
 	bool m_need_help; // check if 'HELP' is pressed
 	bool m_gameOn; // check if 'START GAME' is pressed

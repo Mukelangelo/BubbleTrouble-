@@ -43,4 +43,6 @@ private:
 
 	b2Vec2 m_leftVelocity = b2Vec2(-40.f, 1.f);
 	b2Vec2 m_rightVelocity = b2Vec2(40.f, 1.f);
+
+	bool m_twoPlayers;
 };

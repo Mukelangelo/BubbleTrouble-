@@ -5,9 +5,9 @@
 Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed)
 	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize()), m_animation(texture, imageCount, switchTime)
 {
+	m_playerId = plsyerid++ % 2;
 	initPlayer(pos);
 
-	m_playerId = plsyerid++ % 2;
 	m_speed = speed;
 	m_row = 1;
 	m_faceRight = true;
@@ -34,7 +34,7 @@ void Player::draw(sf::RenderWindow& window)
 	window.draw(m_character);
 }
 
-void Player::move(bool isBlocked, std::pair<sf::Vector2f, bool> input, float deltaTime)
+void Player::move(int isBlocked, std::pair<sf::Vector2f, bool> input, float deltaTime)
 {
 	setDirection(input.first);
 	DirectionImg(input.first.x, deltaTime);
@@ -46,8 +46,8 @@ void Player::move(bool isBlocked, std::pair<sf::Vector2f, bool> input, float del
 	m_location = m_character.getPosition();
 	b2Vec2 pos = m_body->GetPosition();
 
-	(isBlocked) ? m_body->SetTransform(b2Vec2(m_lastLoc.x, m_lastLoc.y), m_body->GetAngle()) :
-				  m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
+	(isBlocked == m_playerId) ? m_body->SetTransform(b2Vec2(m_lastLoc.x, m_lastLoc.y), m_body->GetAngle()) :
+								m_body->SetTransform(b2Vec2(pos.x + m_direction.x, pos.y), m_body->GetAngle());
 
 	m_character.setPosition(pos.x, pos.y);
 	m_location = m_character.getPosition();
@@ -81,6 +81,7 @@ void Player::initPlayer(const sf::Vector2f& loc)
 	fixtureDef.shape = &groundBox;
 	fixtureDef.filter.categoryBits = _entity::PLAYER;
 	fixtureDef.filter.maskBits = _entity::BALL | _entity::WALL;
+	fixtureDef.filter.groupIndex = m_playerId;
 
 	m_fixture = m_body->CreateFixture(&fixtureDef);
 }

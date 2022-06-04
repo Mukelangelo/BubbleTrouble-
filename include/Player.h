@@ -12,7 +12,7 @@ public:
 	Player() = default;
 	Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed);
 
-	void move(bool isBlocked, std::pair<sf::Vector2f, bool> input, float deltaTime);
+	void move(int isBlocked, std::pair<sf::Vector2f, bool> input, float deltaTime);
 	void shoot();
 	void handlePowers();
 	void ballHit();
