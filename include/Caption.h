@@ -22,7 +22,7 @@ public:
 	void removeLive();
 
 	// print an end messege ( next level / lose / victory)
-	void printMessege(const sf::String text, sf::RenderWindow& window);
+	void printMessege(const sf::String text, sf::RenderWindow& window, bool timeBased);
 
 	int handleClick(const sf::Vector2f location);
 

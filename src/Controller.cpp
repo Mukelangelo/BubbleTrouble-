@@ -19,6 +19,7 @@ Controller::Controller()
 	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_world->SetContactListener(&m_cl);
+	restartLvl();
 }
 
 void Controller::run(sf::RenderWindow& window) 
@@ -29,7 +30,6 @@ void Controller::run(sf::RenderWindow& window)
 	sf::Event event;
 
 	m_caption.updateLevel();
-	m_caption.updateTime(STAGE_TIME);
 	m_caption.updateLives();
 
 	bool played_countdown = false;
@@ -73,12 +73,6 @@ void Controller::run(sf::RenderWindow& window)
 		//	played_countdown = true;
 		//}
 
-		if (m_caption.getTime() <= 0) // means game over
-		{
-			m_caption.printMessege("NOOB! , you lost :( shame on you", window);
-			return;
-		}
-
 		if (!eventHandler(event, window))
 		{
 			return;
@@ -87,8 +81,17 @@ void Controller::run(sf::RenderWindow& window)
 		m_player.handlePowers();
 		if (m_balls.empty())
 		{
-			m_caption.printMessege("YAY! , you won :) KOL HA KAVOD!", window);
+			m_caption.printMessege("YAY! , you won :) KOL HA KAVOD!", window, false);
 			return;
+		}
+
+		if (m_caption.getTime() <= 0) // means game over
+		{
+			m_caption.printMessege("NOOB! , you lost :( shame on you", window, true);
+			if (m_caption.getLives() != 0)
+				restartLvl();
+			else
+				return;
 		}
 	}
 }
@@ -186,7 +189,7 @@ bool Controller::pauseMenu(sf::RenderWindow& window)
 					else if (buttonClicked == _pauseButtons::RESTART)
 					{
 						window.clear();
-						//restartLvl();
+						restartLvl();
 						return true;
 					}
 					else if (buttonClicked != _pauseButtons::MUSIC)
@@ -234,4 +237,24 @@ bool Controller::shootingInput()
 		return true;
 	}
 	return false;
+}
+
+void Controller::restartLvl()
+{
+	//clearLastLevel();
+	m_balls.clear();
+	m_board.restartBoard();
+	m_world = std::make_unique<b2World>(m_garvity);
+	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get());
+	m_board.buildBackGround(m_world.get());
+
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
+	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
+
+	m_caption.resetTime();
+	m_caption.updateTime(STAGE_TIME);
+	m_cl.restartFlags();
+	m_world->SetContactListener(&m_cl);
 }
