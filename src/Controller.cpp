@@ -1,8 +1,6 @@
 #include "Controller.h"
 
-#include <iostream>
-
-Controller::Controller()
+Controller::Controller(bool secondPlayer)
 	: m_board(), m_player(), m_caption()
 {
 	restartLvl();
@@ -33,10 +31,10 @@ void Controller::run(sf::RenderWindow& window)
 		checkSplit();
 
 		window.clear(sf::Color::White);
-		
-		//m_player.Update(deltaTime);
-
-		m_player.draw(window);
+		for (auto& player : m_player)
+		{
+			player->draw(window);
+		}
 		m_board.draw(window);
 		m_caption.draw(window);
 		for (auto& ball : m_balls)
@@ -64,7 +62,10 @@ void Controller::run(sf::RenderWindow& window)
 			return;
 		}
 		movementManger(deltaTime);
-		m_player.handlePowers();
+		for (auto& player : m_player)
+		{
+			player->handlePowers();
+		}
 		if (m_balls.empty())
 		{
 			m_caption.printMessege("YAY! , you won :) KOL HA KAVOD!", window, false);
@@ -96,7 +97,10 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 
 		if (event.type == sf::Event::KeyReleased)
 		{
-			m_player.SetStandingImage(0, 1.0f);
+			for (auto& player : m_player)
+			{
+				player->SetStandingImage(0, 1.0f);
+			}
 		}
 	}
 	return true;
@@ -104,8 +108,11 @@ bool Controller::eventHandler(sf::Event& event, sf::RenderWindow& window)
 
 bool Controller::movementManger(float deltaTime)
 {
-	m_player.setLastLoc(); // set last location as current location
-	m_player.move(m_cl.isPlayerAtBorder(), getInput(), deltaTime);
+	for (auto& player : m_player)
+	{
+		player->setLastLoc();
+		player->move(m_cl.isPlayerAtBorder(), getInput(player->getPlayerId()), deltaTime);
+	}
 	return true;
 }
 
@@ -118,7 +125,10 @@ void Controller::checkSplit()
 		{
 			if ((*it)->getId() == index)
 			{
-				m_player.ballHit();
+				for (auto& player : m_player)
+				{
+					player->ballHit();
+				}
 				auto radius = (*it)->getRadius() / 2;
 				auto loc = (*it)->getLocation();
 				m_world->DestroyBody(&(*it)->getBody());
@@ -191,53 +201,81 @@ bool Controller::pauseMenu(sf::RenderWindow& window)
 	return true;
 }
 
-std::pair<sf::Vector2f, bool> Controller::getInput()
+std::pair<sf::Vector2f, bool> Controller::getInput(int playerId)
 {
-	std::pair<sf::Vector2f, bool> pair(directionInput(), shootingInput());
+	std::pair<sf::Vector2f, bool> pair(directionInput(playerId), shootingInput(playerId));
 	return pair;
 }
 
-sf::Vector2f Controller::directionInput()
+sf::Vector2f Controller::directionInput(int playerId)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (playerId == 0)
 	{
-		//m_texture.loadFromFile("batman-right-flow.png");
-		return sf::Vector2f(1, 0);
-	}	
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		//m_texture.loadFromFile("batman-right-flow.png");
-		return sf::Vector2f(-1, 0);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			return sf::Vector2f(1, 0);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			return sf::Vector2f(-1, 0);
+		}
+		else
+		{
+			return sf::Vector2f(0, 0);
+		}
 	}
 	else
 	{
-		//m_texture = *Resources::instance().getTexture(_game_objects::BATMAN_STAND);
-		return sf::Vector2f(0, 0);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			return sf::Vector2f(1, 0);
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			return sf::Vector2f(-1, 0);
+		}
+		else
+		{
+			return sf::Vector2f(0, 0);
+		}
 	}
 }
 
-bool Controller::shootingInput()
+bool Controller::shootingInput(int playerId)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (playerId == 0)
 	{
-		return true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			return true;
+		}
+	}
+	else
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			return true;
+		}
 	}
 	return false;
 }
 
 void Controller::restartLvl()
 {
-	m_texture.loadFromFile("flow2.png");
-	//clearLastLevel();
+	m_texture.loadFromFile("flow2.png");	// chnage it later
 	m_balls.clear();
+	m_player.clear();
 	m_board.restartBoard();
 	m_world = std::make_unique<b2World>(m_garvity);
-	m_player = Player(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f);
+
+	m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH / 4, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f));
+	m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH - 4 * WALL_SIZE, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f));
+
 	m_board.buildBackGround(m_world.get());
 
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEGA_BIG, m_world.get(), m_rightVelocity))));
 	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::BIG, m_world.get(), m_rightVelocity))));
-	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
+	//m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::MEDIUM, m_world.get(), m_rightVelocity))));
 	m_balls.push_back(std::move(std::make_unique<Ball>(Ball(sf::Vector2f(WINDOW_WIDTH / 3, 2 * WALL_SIZE), _ball_radius::SMALL, m_world.get(), m_rightVelocity))));
 
 	m_caption.resetTime();

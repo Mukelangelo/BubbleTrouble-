@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 
 
 Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed)
@@ -6,11 +7,11 @@ Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf
 {
 	initPlayer(pos);
 
+	m_playerId = plsyerid++ % 2;
 	m_speed = speed;
 	m_row = 1;
 	m_faceRight = true;
 	m_character.setSize(sf::Vector2f(50.0f, 100.0f));
-	m_character.setPosition(sf::Vector2f(300.0f, 300.0f));
 	m_character.setTexture(texture);
 	m_character.setOrigin(m_size / 2.f);
 
@@ -19,6 +20,9 @@ Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf
 	m_powers.push_back(std::make_unique<Weapon>(m_world));
 	
 	m_character.setPosition(sf::Vector2f(m_body->GetPosition().x, m_body->GetPosition().y));
+
+	m_animation.Update(1, 0, true);
+	m_character.setTextureRect(m_animation.uvRect);
 }
 
 void Player::draw(sf::RenderWindow& window) 
@@ -127,4 +131,9 @@ void Player::setLocation(const sf::Vector2f& loc)
 {
 	GameObject::setLocation(loc);
 	m_body->SetTransform(b2Vec2(loc.x, loc.y), m_body->GetAngle());
+}
+
+int Player::getPlayerId() const
+{
+	return m_playerId;
 }

@@ -4,6 +4,8 @@
 #include "Weapon.h"
 #include "Animation.h"
 
+static int plsyerid = 0;
+
 class Player : public MovingObject
 {
 public:
@@ -18,6 +20,7 @@ public:
 
 	void draw(sf::RenderWindow& window);
 	void setLocation(const sf::Vector2f& loc);
+	int getPlayerId() const;
 
 protected:
 	virtual void DirectionImg(int dir, float deltaTime) override;
@@ -37,4 +40,6 @@ private:
 	unsigned int m_row = 1;
 	float m_speed = 0.0f;
 	bool m_faceRight = true;
+
+	int m_playerId;
 };

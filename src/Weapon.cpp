@@ -64,7 +64,14 @@ void Weapon::initWeapon()
 
 void Weapon::forceEnd()
 {
-	m_isActive = false;
-	m_obj.setSize(sf::Vector2f());
-	m_body->SetTransform(b2Vec2(0, 0), m_body->GetAngle());
+	for (auto cl = m_body->GetContactList(); cl; cl = cl->next)
+	{
+		if (cl->contact->GetFixtureA()->GetFilterData().categoryBits == _entity::BALL ||
+			cl->contact->GetFixtureB()->GetFilterData().categoryBits == _entity::BALL)
+		{
+			m_isActive = false;
+			m_obj.setSize(sf::Vector2f());
+			m_body->SetTransform(b2Vec2(0, 0), m_body->GetAngle());
+		}
+	}
 }
