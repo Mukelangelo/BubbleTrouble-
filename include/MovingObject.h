@@ -2,13 +2,14 @@
 
 #include "GameObject.h"
 
-class MovingObject : public GameObject {
+class MovingObject : public GameObject 
+{
 public:
 	//MovingObject(sf::Vector2f loc, const sf::Texture& texture);
 
 	virtual void setDirection(sf::Vector2f key);
 	virtual void move(sf::Time deltaTime);
-	virtual void DirectionImg(int dir) = 0;
+	virtual void DirectionImg(int dir, float deltaTime) = 0;
 
 	void setLastLoc();
 	sf::Vector2f getLastLoc() const;

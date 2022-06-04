@@ -4,7 +4,8 @@
 
 static int id = 0;
 
-class Ball : public MovingObject {
+class Ball : public MovingObject
+{
 public:
 	Ball() = default;
 	Ball(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);
@@ -16,7 +17,7 @@ public:
 	b2Body& getBody() const;
 
 protected:
-	virtual void DirectionImg(int dir) {};
+	virtual void DirectionImg(int dir, float deltaTime) {};
 
 private:
 	void initBall(const sf::Vector2f& loc, float radius, b2World* world, const b2Vec2& velocity);
