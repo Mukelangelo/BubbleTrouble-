@@ -268,9 +268,13 @@ void Controller::restartLvl()
 	m_board.restartBoard();
 	m_world = std::make_unique<b2World>(m_garvity);
 
-	m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH / 4, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f));
-	if(m_twoPlayers)
-		m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH - 4 * WALL_SIZE, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.2f, 200.0f));
+	m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH / 4, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_texture, sf::Vector2u(3, 3), 0.1f, 200.0f));
+	if (m_twoPlayers)
+	{
+		m_textureSecondPlayer.loadFromFile("robin-flow.png");
+		m_player.push_back(std::make_unique<Player>(sf::Vector2f(WINDOW_WIDTH - 4 * WALL_SIZE, WINDOW_HEIGHT - 1.5 * WALL_SIZE + 10), m_world.get(), &m_textureSecondPlayer, sf::Vector2u(3, 3), 0.1f, 200.0f));
+	}
+		
 
 	m_board.buildBackGround(m_world.get());
 
