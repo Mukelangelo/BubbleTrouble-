@@ -14,4 +14,5 @@
 											  "StaticObject.cpp"
 											  "Wall.cpp"
 											  "ContactListener.cpp"
-											  "Animation.cpp")
+											  "Animation.cpp"
+											  "Socket.cpp")
