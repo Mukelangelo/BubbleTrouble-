@@ -2,10 +2,10 @@
 #include <iostream>
 
 
-Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed)
+Player::Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed, int id)
 	: m_world(world), m_size((* Resources::instance().getTexture(_game_objects::BATMAN_STAND)).getSize()), m_animation(texture, imageCount, switchTime)
 {
-	m_playerId = plsyerid++ % 2;
+	m_playerId = id;
 	initPlayer(pos);
 
 	m_speed = speed;

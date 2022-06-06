@@ -4,13 +4,13 @@
 #include "Weapon.h"
 #include "Animation.h"
 
-static int plsyerid = 0;
+static int playerid = 0;
 
 class Player : public MovingObject
 {
 public:
 	Player() = default;
-	Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed);
+	Player(const sf::Vector2f& pos, b2World* world, sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed, int id);
 
 	void move(int isBlocked, std::pair<sf::Vector2f, bool> input, float deltaTime);
 	void shoot();
@@ -29,7 +29,7 @@ private:
 	void initPlayer(const sf::Vector2f& loc);
 
 	int m_lives = 3;
-	std::vector<std::unique_ptr<Power>> m_powers; // maybe shared?
+	std::vector<std::unique_ptr<Power>> m_powers;
 	b2World* m_world;
 	b2Body* m_body;
 	b2Fixture* m_fixture;
